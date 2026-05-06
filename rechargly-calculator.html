@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Cost Recovery Calculator | Rechargly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --purple:   #2b068a;
+  --pink:     #ee35f5;
+  --gradient: linear-gradient(135deg, #200384, #ee35f5);
+  --text:     #202a25;
+  --mid:      #70777c;
+  --muted:    #9ca9b0;
+  --border:   #e4e9ed;
+  --bg:       #ffffff;
+  --surface:  #f6f8f9;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--surface); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ── NAV ── */
+nav {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo { display: flex; align-items: center; text-decoration: none; }
+.logo img { height: 28px; width: auto; display: block; }
+
+.nav-actions { display: flex; align-items: center; gap: 8px; }
+.btn-outline { font-size: 14px; font-weight: 700; color: var(--text); background: transparent; border: none; padding: 7px 4px; text-decoration: none; border-bottom: 2px solid var(--text); transition: color 0.12s, border-color 0.12s; white-space: nowrap; }
+.btn-outline:hover { color: var(--purple); border-color: var(--purple); }
+.btn-solid { font-size: 14px; font-weight: 700; color: #fff; background: var(--purple); border: none; padding: 9px 22px; border-radius: 100px; text-decoration: none; transition: opacity 0.15s; white-space: nowrap; }
+.btn-solid:hover { opacity: 0.85; }
+
+/* ── PAGE INTRO ── */
+.intro {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.intro-inner { max-width: 600px; margin: 0 auto; }
+.intro-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(32,3,132,0.07); border: 1px solid rgba(32,3,132,0.15); color: var(--purple); font-size: 11.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; margin-bottom: 1.1rem; }
+.intro h1 { font-size: clamp(26px, 4vw, 38px); font-weight: 800; color: var(--text); letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 0.75rem; }
+.intro p { font-size: 15px; color: var(--mid); font-weight: 500; line-height: 1.65; }
+
+/* ── MAIN CONTENT ── */
+.content { flex: 1; max-width: 980px; margin: 0 auto; width: 100%; padding: 2.5rem 1.5rem 4rem; }
+
+.layout { display: grid; grid-template-columns: 1fr 320px; gap: 1.5rem; align-items: start; }
+@media (max-width: 740px) { .layout { grid-template-columns: 1fr; } }
+
+/* ── CALCULATOR CARD ── */
+.card { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.card-head { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); }
+.card-head h2 { font-size: 14px; font-weight: 700; color: var(--text); }
+.card-head p { font-size: 12.5px; color: var(--muted); font-weight: 500; margin-top: 2px; }
+.card-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+
+.field-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem; gap: 12px; }
+.field-label { font-size: 13.5px; font-weight: 600; color: var(--text); }
+.field-hint { font-size: 11.5px; color: var(--muted); font-weight: 500; margin-top: 2px; }
+.field-val { font-size: 16px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; flex-shrink: 0; }
+
+input[type=range] { -webkit-appearance: none; width: 100%; height: 4px; background: var(--border); border-radius: 100px; outline: none; cursor: pointer; display: block; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--gradient); border-radius: 50%; border: 2.5px solid #fff; box-shadow: 0 0 0 1.5px rgba(32,3,132,0.18), 0 2px 4px rgba(32,3,132,0.15); cursor: pointer; transition: transform 0.1s; }
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+input[type=range]::-moz-range-thumb { width: 18px; height: 18px; background: var(--purple); border-radius: 50%; border: 2.5px solid #fff; }
+
+.tick-labels { display: flex; justify-content: space-between; margin-top: 5px; }
+.tick-labels span { font-size: 11px; color: var(--muted); font-weight: 500; }
+
+hr.sep { border: none; border-top: 1px solid var(--border); }
+
+/* ── RESULT CARD ── */
+.result {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  position: sticky;
+  top: 80px;
+}
+.result::before { content: ''; display: block; height: 3px; background: var(--gradient); }
+.result-body { padding: 1.4rem 1.4rem 1.5rem; }
+
+.result-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
+.result-amount { font-size: 42px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.result-sublabel { font-size: 12px; color: var(--muted); font-weight: 500; margin-top: 0.2rem; margin-bottom: 1.25rem; }
+
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 1.25rem; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.65rem 0.8rem; }
+.stat-val { font-size: 14px; font-weight: 800; color: var(--text); display: block; letter-spacing: -0.02em; }
+.stat-lbl { font-size: 11px; color: var(--muted); display: block; font-weight: 500; line-height: 1.4; margin-top: 1px; }
+
+hr.result-sep { border: none; border-top: 1px solid var(--border); margin: 0 0 1.1rem; }
+.result-copy { font-size: 12px; color: var(--muted); line-height: 1.65; margin-bottom: 0.85rem; font-weight: 500; }
+
+.btn-demo { display: block; width: 100%; background: var(--purple); color: #fff; font-size: 14px; font-weight: 700; text-align: center; padding: 13px; border-radius: 100px; text-decoration: none; transition: opacity 0.15s, transform 0.1s; letter-spacing: -0.01em; }
+.btn-demo:hover { opacity: 0.82; transform: translateY(-1px); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 2rem;
+  flex-shrink: 0;
+}
+.footer-inner { max-width: 980px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+.footer-logo { display: flex; align-items: center; text-decoration: none; }
+.footer-logo img { height: 20px; width: auto; display: block; }
+.footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; font-weight: 500; }
+.footer-links a:hover { color: var(--mid); }
+.footer-legal { font-size: 12px; color: var(--muted); font-weight: 500; width: 100%; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+.footer-legal a { color: var(--purple); text-decoration: none; font-weight: 600; }
+.footer-legal a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://rechargly.com" class="logo">
+    <img src="https://cdn.prod.website-files.com/65aa019626783da5fc3fac12/661498b9f8513ceddf7325e6_rechargly-logo-no-padding.svg" alt="Rechargly">
+  </a>
+  <div class="nav-actions">
+    <a href="https://rechargly.com/demo" class="btn-outline">Book demo</a>
+    <a href="https://app.rechargly.com/signup" class="btn-solid">Sign up</a>
+  </div>
+</nav>
+
+<!-- INTRO -->
+<div class="intro">
+  <div class="intro-inner">
+    <div class="intro-badge">Free calculator</div>
+    <h1>Software Cost Recovery Calculator</h1>
+    <p>Find out exactly how much your firm is absorbing in unrecovered software costs, and what it would mean to get it back.</p>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+  <div class="layout">
+
+    <!-- CALCULATOR -->
+    <div class="card">
+      <div class="card-head">
+        <h2>Your firm's software absorption</h2>
+        <p>Adjust the sliders. Your result updates in real time.</p>
+      </div>
+      <div class="card-body">
+
+        <div>
+          <div class="field-header">
+            <div>
+              <div class="field-label">Active clients on software you pay for</div>
+              <div class="field-hint">Clients where you hold the subscription and on-charge (or absorb) the cost</div>
+            </div>
+            <span class="field-val" id="clients-out">50</span>
+          </div>
+          <input type="range" id="clients" min="5" max="300" step="5" value="50" oninput="calc()">
+          <div class="tick-labels"><span>5</span><span>75</span><span>150</span><span>225</span><span>300</span></div>
+        </div>
+
+        <div>
+          <div class="field-header">
+            <div>
+              <div class="field-label">Software subscriptions per client</div>
+              <div class="field-hint">Xero, Dext, Hubdoc, Ignition, Fathom, AutoEntry…</div>
+            </div>
+            <span class="field-val" id="subs-out">3</span>
+          </div>
+          <input type="range" id="subs" min="1" max="8" step="1" value="3" oninput="calc()">
+          <div class="tick-labels"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+        </div>
+
+        <div>
+          <div class="field-header">
+            <div>
+              <div class="field-label">Average monthly cost per subscription</div>
+              <div class="field-hint">AUD. Xero ~$35-65, Dext ~$55, Hubdoc ~$30</div>
+            </div>
+            <span class="field-val" id="cost-out">$45</span>
+          </div>
+          <input type="range" id="cost" min="10" max="150" step="5" value="45" oninput="calc()">
+          <div class="tick-labels"><span>$10</span><span>$45</span><span>$80</span><span>$115</span><span>$150</span></div>
+        </div>
+
+        <hr class="sep">
+
+        <div>
+          <div class="field-header">
+            <div>
+              <div class="field-label">% of costs currently recovered</div>
+              <div class="field-hint">Passed on via invoices, bundled into fees, or charged directly</div>
+            </div>
+            <span class="field-val" id="recovery-out">10%</span>
+          </div>
+          <input type="range" id="recovery" min="0" max="100" step="5" value="10" oninput="calc()">
+          <div class="tick-labels"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="result">
+      <div class="result-body">
+        <div class="result-eyebrow">Your firm is absorbing</div>
+        <div class="result-amount" id="annual-out">$97,200</div>
+        <div class="result-sublabel" id="annual-label">per year in unrecovered software costs</div>
+
+        <div class="stats">
+          <div class="stat">
+            <span class="stat-val" id="stat-month">$8,100</span>
+            <span class="stat-lbl">per month</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val" id="stat-per-client">$1,944</span>
+            <span class="stat-lbl">per client / year</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val" id="stat-total">$108,000</span>
+            <span class="stat-lbl">total software spend</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val" id="stat-fte">0.8 FTEs</span>
+            <span class="stat-lbl">salary equivalent</span>
+          </div>
+        </div>
+
+        <hr class="result-sep">
+        <p class="result-copy">Rechargly automates software cost recovery through Xero. No manual invoicing, no chasing clients.</p>
+        <a href="https://rechargly.com/demo" class="btn-demo">Book a free demo →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+function fmtAUD(n) {
+  return '$' + Math.round(n).toLocaleString('en-AU');
+}
+function updateSliderFill(el) {
+  const pct = ((parseFloat(el.value) - parseFloat(el.min)) / (parseFloat(el.max) - parseFloat(el.min))) * 100;
+  el.style.background = 'linear-gradient(to right, #200384 ' + pct + '%, #e4e9ed ' + pct + '%)';
+}
+function calc() {
+  const clients  = parseInt(document.getElementById('clients').value);
+  const subs     = parseInt(document.getElementById('subs').value);
+  const cost     = parseInt(document.getElementById('cost').value);
+  const recovPct = parseInt(document.getElementById('recovery').value);
+
+  document.getElementById('clients-out').textContent  = clients;
+  document.getElementById('subs-out').textContent     = subs;
+  document.getElementById('cost-out').textContent     = '$' + cost;
+  document.getElementById('recovery-out').textContent = recovPct + '%';
+
+  document.querySelectorAll('input[type=range]').forEach(updateSliderFill);
+
+  const totalMonthly   = clients * subs * cost;
+  const absorbedMo     = totalMonthly * (1 - recovPct / 100);
+  const absorbedAnnual = absorbedMo * 12;
+  const perClient      = clients > 0 ? absorbedAnnual / clients : 0;
+  const fteEquiv       = (absorbedAnnual / 120000).toFixed(1);
+
+  document.getElementById('annual-out').textContent = fmtAUD(absorbedAnnual);
+  document.getElementById('annual-label').textContent = recovPct === 100
+    ? "you're already recovering everything"
+    : 'per year in unrecovered software costs';
+
+  document.getElementById('stat-month').textContent      = fmtAUD(absorbedMo);
+  document.getElementById('stat-per-client').textContent = fmtAUD(perClient);
+  document.getElementById('stat-total').textContent      = fmtAUD(totalMonthly * 12);
+  document.getElementById('stat-fte').textContent        = fteEquiv + ' FTEs';
+}
+calc();
+</script>
+</body>
+</html>
