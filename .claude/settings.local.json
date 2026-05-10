@@ -7,7 +7,11 @@
       "Bash(curl -s \"https://rechargly.webflow.io/\")",
       "Bash(curl -s \"https://cdn.prod.website-files.com/65aa019626783da5fc3fac12/css/rechargly.webflow.shared.5041f66a3.css\")",
       "Bash(grep -oE \"\\(--[a-z0-9-]+:|#[0-9a-fA-F]{3,8}|rgb[a]?\\\\\\([^\\)]+\\\\\\)\\)\")",
-      "WebFetch(domain:cdn.prod.website-files.com)"
+      "WebFetch(domain:cdn.prod.website-files.com)",
+      "Bash(curl -sL \"https://rechargly.webflow.io\")",
+      "Bash(curl -sL \"https://cdn.prod.website-files.com/65aa019626783da5fc3fac12/css/rechargly.webflow.shared.5041f66a3.css\")",
+      "Bash(grep -E '\\(font-family|color:|background|border-radius|padding|font-size|font-weight|letter-spacing|gradient|#[0-9a-fA-F]{3,6}|fellix|jakarta|neue|haas|grotesk\\)')",
+      "Bash(grep -oE 'color[^<]{0,60}')"
     ]
   }
 }
