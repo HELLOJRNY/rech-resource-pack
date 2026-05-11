@@ -127,15 +127,15 @@ hr.result-sep { border: none; border-top: 1px solid var(--border); margin: 0 0 1
 
 /* OUTPUT ROWS */
 .output-rows { display: flex; flex-direction: column; margin: 0.9rem 0; }
-.output-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--border); }
+.output-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.2rem 0.5rem; padding: 0.6rem 0; border-bottom: 1px solid var(--border); }
 .output-row:first-child { border-top: 1px solid var(--border); }
-.output-row-left { display: flex; align-items: center; gap: 0.55rem; min-width: 0; }
+.output-row-left { display: flex; align-items: center; gap: 0.55rem; flex: 1 1 auto; min-width: 0; }
 .output-tag { font-size: 9px; font-weight: 800; letter-spacing: 0.07em; padding: 2px 6px; border-radius: 4px; flex-shrink: 0; text-transform: uppercase; }
 .output-tag.earn { background: rgba(83,16,160,0.1); color: #5310a0; }
 .output-tag.retain { background: rgba(238,53,245,0.12); color: #b018b8; }
 .output-tag.automate { background: rgba(83,16,160,0.06); color: #6920b8; }
-.output-row-label { font-size: 12.5px; font-weight: 500; color: var(--text); white-space: nowrap; }
-.output-row-val { font-size: 13px; font-weight: 700; color: var(--text); text-align: right; flex-shrink: 0; }
+.output-row-label { font-size: 12.5px; font-weight: 500; color: var(--text); }
+.output-row-val { font-size: 13px; font-weight: 700; color: var(--text); text-align: right; margin-left: auto; }
 .output-selfpay { font-size: 11px; color: var(--muted); font-weight: 400; line-height: 1.5; padding-top: 0.5rem; margin-bottom: 1rem; }
 .output-secondary-cta { font-size: 11.5px; color: var(--muted); font-weight: 400; text-align: center; margin-top: 0.75rem; line-height: 1.5; }
 .output-secondary-cta a { color: var(--purple); font-weight: 600; text-decoration: none; }
@@ -898,41 +898,43 @@ function downloadChecklist() {
   }).join('');
 
   var css = [
-    '@page{size:A4 portrait;margin:0;}',
+    '@page{size:A4 portrait;margin:14mm 18mm;}',
     '*{box-sizing:border-box;margin:0;padding:0;}',
     'html{background:#dce1e7;min-height:100vh;}',
     'body{margin:0;padding:32px 20px 48px;font-family:"Plus Jakarta Sans",-apple-system,"Helvetica Neue",sans-serif;color:#1f2937;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
     '.doc{background:#fff;max-width:740px;margin:0 auto;border-radius:4px;box-shadow:0 3px 24px rgba(0,0,0,0.14);overflow:hidden;}',
     '.bar{height:5px;background:linear-gradient(90deg,' + PURPLE + ',#7c3aed);-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
     '.bot-bar{height:3px;background:linear-gradient(90deg,' + PURPLE + ',#7c3aed);-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
-    '.pg{padding:30px 52px 32px;}',
-    '.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}',
-    '.logo{height:21px;width:auto;display:block;}',
-    '.site{font-size:11.5px;color:#9ca3af;}',
-    '.rule{height:1px;background:#e5e7eb;margin-bottom:24px;}',
-    '.eyebrow{font-size:9.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:' + PURPLE + ';margin-bottom:6px;}',
-    'h1{font-size:22px;font-weight:800;letter-spacing:-0.02em;color:#0d1117;line-height:1.15;margin-bottom:6px;}',
-    '.intro{font-size:13px;color:#4b5563;line-height:1.65;margin-bottom:28px;padding-bottom:22px;border-bottom:1px solid #e5e7eb;}',
-    '.grp{margin-bottom:28px;page-break-inside:avoid;}',
-    '.grp:last-child{margin-bottom:4px;}',
-    '.grp-title{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:' + PURPLE + ';padding-bottom:8px;border-bottom:2px solid ' + PURPLE + ';margin-bottom:2px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
-    '.it{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f3f4f6;}',
+    '.pg{padding:28px 48px 24px;}',
+    '.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}',
+    '.logo{height:20px;width:auto;display:block;}',
+    '.site{font-size:11px;color:#9ca3af;}',
+    '.rule{height:1px;background:#e5e7eb;margin-bottom:20px;}',
+    '.eyebrow{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:' + PURPLE + ';margin-bottom:5px;}',
+    'h1{font-size:21px;font-weight:800;letter-spacing:-0.02em;color:#0d1117;line-height:1.15;margin-bottom:5px;}',
+    '.intro{font-size:12.5px;color:#4b5563;line-height:1.6;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid #e5e7eb;}',
+    '.grp{margin-bottom:22px;page-break-inside:avoid;}',
+    '.grp:last-child{margin-bottom:0;}',
+    '.grp-title{font-size:8.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:' + PURPLE + ';padding-bottom:7px;border-bottom:2px solid ' + PURPLE + ';margin-bottom:1px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    '.it{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #f3f4f6;}',
     '.it:last-child{border-bottom:none;}',
-    '.cb{width:14px;height:14px;min-width:14px;border-radius:3px;border:1.5px solid #d1d5db;background:#fff;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    '.cb{width:13px;height:13px;min-width:13px;border-radius:3px;border:1.5px solid #d1d5db;background:#fff;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
     '.cb-on{border-color:' + PURPLE + ';background:' + PURPLE + ';}',
-    '.it-txt{font-size:12.5px;line-height:1.55;color:#1f2937;}',
+    '.it-txt{font-size:12px;line-height:1.5;color:#1f2937;}',
     '.it-done{color:#9ca3af;text-decoration:line-through;}',
-    '.ft{display:flex;align-items:center;justify-content:space-between;padding:13px 52px;}',
+    '.pg-ft{display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding-top:14px;border-top:1px solid #e5e7eb;}',
+    '.pg-ft-txt{font-size:10px;color:#9ca3af;}',
+    '.ft{display:flex;align-items:center;justify-content:space-between;padding:12px 48px;}',
     '.ft-txt{font-size:10.5px;color:#9ca3af;}',
-    '.save-wrap{padding:0 52px 26px;}',
-    '.save-btn{display:block;width:100%;padding:11px;background:linear-gradient(135deg,' + PURPLE + ',#7c3aed);color:#fff;border:none;border-radius:7px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    '.save-wrap{padding:0 48px 24px;}',
+    '.save-btn{display:block;width:100%;padding:11px;background:linear-gradient(135deg,' + PURPLE + ',#7c3aed);color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
     '@media print{',
     'html{background:#fff;padding:0;}',
     'body{padding:0;}',
     '.doc{max-width:none;width:100%;border-radius:0;box-shadow:none;margin:0;}',
-    '.pg{padding:16mm 20mm 10mm;}',
-    '.ft{padding:10px 20mm;}',
-    '.save-wrap{display:none!important;}',
+    '.bar,.bot-bar{display:none;}',
+    '.pg{padding:0;}',
+    '.ft,.save-wrap{display:none!important;}',
     '.grp{page-break-inside:avoid;}',
     'body{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}',
     '}'
@@ -959,9 +961,13 @@ function downloadChecklist() {
     '<h1>The three commercial pieces checklist</h1>',
     '<p class="intro">Use this checklist to review the three commercial gaps that cause most practices to absorb costs they should be passing on.</p>',
     groupsHtml,
+    '<div class="pg-ft">',
+    '<img class="logo" src="' + LOGO + '" alt="Rechargly" style="height:15px;" crossorigin="anonymous">',
+    '<span class="pg-ft-txt">A free resource from Rechargly. Visit rechargly.com</span>',
+    '</div>',
     '</div>',
     '<div class="ft">',
-    '<img class="logo" src="' + LOGO + '" alt="Rechargly" style="height:16px;" crossorigin="anonymous">',
+    '<img class="logo" src="' + LOGO + '" alt="Rechargly" style="height:15px;" crossorigin="anonymous">',
     '<span class="ft-txt">A free resource from Rechargly. Visit rechargly.com</span>',
     '</div>',
     '<div class="bot-bar"></div>',
