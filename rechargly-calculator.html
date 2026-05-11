@@ -869,109 +869,100 @@ function updateProgress() {
 }
 
 /* CHECKLIST PDF */
-function makeGradImg(w, h) {
-  var c = document.createElement('canvas');
-  c.width = w; c.height = h;
-  var ctx = c.getContext('2d');
-  var g = ctx.createLinearGradient(0, 0, w, 0);
-  g.addColorStop(0, '#5310a0');
-  g.addColorStop(1, '#ee35f5');
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, w, h);
-  return c.toDataURL('image/png');
-}
-
 function downloadChecklist() {
-  var downloadSvg = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  var btnEl = document.querySelector('button[onclick*="downloadChecklist"]');
-  if (btnEl) { btnEl.innerHTML = downloadSvg + ' Generating…'; btnEl.disabled = true; }
+  var PURPLE = '#2b068a';
+  var LOGO   = 'https://cdn.prod.website-files.com/65aa019626783da5fc3fac12/661498b9f8513ceddf7325e6_rechargly-logo-no-padding.svg';
 
-  var SCRIPT_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+  var allItems = document.querySelectorAll('.checklist-item');
+  var items = [];
+  allItems.forEach(function(el) {
+    items.push({ checked: el.querySelector('input').checked, text: el.querySelector('label').textContent.trim() });
+  });
 
-  function run() {
-    var gradBar  = makeGradImg(1588, 16);
-    var gradFoot = makeGradImg(1588, 8);
-    var logoSrc  = 'https://cdn.prod.website-files.com/65aa019626783da5fc3fac12/661498b9f8513ceddf7325e6_rechargly-logo-no-padding.svg';
+  var groups = [
+    { title: 'How you communicate fee changes',                              items: items.slice(0, 6)  },
+    { title: 'Whether your fees and engagement letters reflect your decisions', items: items.slice(6, 14) },
+    { title: 'Whether you are still absorbing software subscription costs',  items: items.slice(14, 20) }
+  ];
 
-    var allItems = document.querySelectorAll('.checklist-item');
-    var items = [];
-    allItems.forEach(function(el) {
-      items.push({ checked: el.querySelector('input').checked, text: el.querySelector('label').textContent.trim() });
-    });
-
-    var groups = [
-      { title: 'How you communicate fee changes', items: items.slice(0, 6) },
-      { title: 'Whether your fees and engagement letters reflect your decisions', items: items.slice(6, 14) },
-      { title: 'Whether you are still absorbing software subscription costs', items: items.slice(14, 20) }
-    ];
-
-    var groupsHtml = groups.map(function(g, i) {
-      var rows = g.items.map(function(item) {
-        var boxStyle = 'width:16px;height:16px;min-width:16px;border-radius:3px;border:1.5px solid #d0d9df;margin-top:3px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;'
-          + (item.checked ? 'background:#5310a0;border-color:#5310a0;' : 'background:#fff;');
-        var checkmark = item.checked
-          ? '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-          : '';
-        var txtStyle = item.checked ? 'color:#b0bcc5;text-decoration:line-through;' : 'color:#202a25;';
-        return '<div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #f0f3f5;">'
-          + '<span style="' + boxStyle + '">' + checkmark + '</span>'
-          + '<span style="font-size:13px;line-height:1.6;' + txtStyle + '">' + item.text + '</span>'
-          + '</div>';
-      }).join('');
-      return '<div style="' + (i < groups.length - 1 ? 'margin-bottom:32px;' : '') + '">'
-        + '<div style="font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#5310a0;padding-bottom:10px;border-bottom:2px solid #5310a0;margin-bottom:2px;">' + g.title + '</div>'
-        + rows + '</div>';
+  var groupsHtml = groups.map(function(g) {
+    var rows = g.items.map(function(item) {
+      var inner = item.checked
+        ? '<svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        : '';
+      var cbCls  = item.checked ? 'cb cb-on' : 'cb';
+      var txCls  = item.checked ? 'it-txt it-done' : 'it-txt';
+      return '<div class="it"><span class="' + cbCls + '">' + inner + '</span><span class="' + txCls + '">' + item.text + '</span></div>';
     }).join('');
+    return '<div class="grp"><div class="grp-title">' + g.title + '</div>' + rows + '</div>';
+  }).join('');
 
-    var wrap = document.createElement('div');
-    wrap.style.cssText = 'position:absolute;left:-9999px;top:0;width:794px;font-family:"Helvetica Neue",Arial,sans-serif;color:#202a25;background:#fff;';
-    wrap.innerHTML =
-      '<div style="background:#fff;">'
-      + '<div style="padding:32px 56px 0;display:flex;align-items:center;justify-content:space-between;">'
-      + '<img src="' + logoSrc + '" style="height:24px;width:auto;display:block;" crossorigin="anonymous">'
-      + '<span style="font-size:11px;color:#9ca9b0;font-weight:400;">rechargly.com</span>'
-      + '</div>'
-      + '<img src="' + gradBar + '" style="display:block;width:100%;height:5px;margin-top:24px;">'
-      + '<div style="padding:40px 56px 8px;">'
-      + '<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#5310a0;margin-bottom:10px;">Software cost recovery</div>'
-      + '<div style="font-size:26px;font-weight:800;letter-spacing:-0.03em;color:#202a25;line-height:1.15;margin-bottom:10px;">The three commercial pieces checklist</div>'
-      + '<div style="font-size:13px;color:#70777c;line-height:1.65;margin-bottom:36px;">Use this checklist to review the three commercial gaps that cause most practices to absorb costs they should be passing on.</div>'
-      + groupsHtml
-      + '</div>'
-      + '<img src="' + gradFoot + '" style="display:block;width:100%;height:3px;margin-top:40px;">'
-      + '<div style="padding:14px 56px;display:flex;align-items:center;justify-content:space-between;">'
-      + '<img src="' + logoSrc + '" style="height:17px;width:auto;display:block;" crossorigin="anonymous">'
-      + '<span style="font-size:11px;color:#9ca9b0;">rechargly.com</span>'
-      + '</div></div>';
+  var css = [
+    '*{box-sizing:border-box;margin:0;padding:0;}',
+    'body{font-family:"Plus Jakarta Sans",-apple-system,"Helvetica Neue",sans-serif;color:#1f2937;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    '.bar{height:4px;background:linear-gradient(90deg,' + PURPLE + ',#7c3aed);-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    '.pg{padding:28px 54px 36px;max-width:794px;margin:0 auto;}',
+    '.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}',
+    '.logo{height:20px;width:auto;display:block;}',
+    '.site{font-size:11px;color:#9ca3af;}',
+    '.rule{height:1px;background:#e5e7eb;margin-bottom:22px;}',
+    '.eyebrow{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:' + PURPLE + ';margin-bottom:5px;}',
+    'h1{font-size:21px;font-weight:800;letter-spacing:-0.02em;color:#0d1117;line-height:1.15;margin-bottom:5px;}',
+    '.intro{font-size:12px;color:#4b5563;line-height:1.65;margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid #e5e7eb;}',
+    '.grp{margin-bottom:26px;page-break-inside:avoid;}',
+    '.grp:last-child{margin-bottom:0;}',
+    '.grp-title{font-size:8.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:' + PURPLE + ';padding-bottom:7px;border-bottom:2px solid ' + PURPLE + ';margin-bottom:1px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    '.it{display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid #f3f4f6;}',
+    '.it:last-child{border-bottom:none;}',
+    '.cb{width:13px;height:13px;min-width:13px;border-radius:3px;border:1.5px solid #d1d5db;background:#fff;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    '.cb-on{border-color:' + PURPLE + ';background:' + PURPLE + ';}',
+    '.it-txt{font-size:11.5px;line-height:1.55;color:#1f2937;}',
+    '.it-done{color:#9ca3af;text-decoration:line-through;}',
+    '.ft{display:flex;align-items:center;justify-content:space-between;margin-top:28px;padding-top:14px;border-top:1px solid #e5e7eb;}',
+    '.ft-txt{font-size:10px;color:#9ca3af;}',
+    '.save-btn{display:block;width:100%;padding:10px;margin-top:14px;background:linear-gradient(135deg,' + PURPLE + ',#7c3aed);color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    '@media print{',
+    '.no-print{display:none!important;}',
+    '.pg{padding:12px 40px;}',
+    '.grp{page-break-inside:avoid;}',
+    'body{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}',
+    '}'
+  ].join('');
 
-    document.body.appendChild(wrap);
+  var html = [
+    '<!DOCTYPE html><html lang="en"><head>',
+    '<meta charset="UTF-8">',
+    '<title>The Three Commercial Pieces Checklist | Rechargly</title>',
+    '<link rel="preconnect" href="https://fonts.googleapis.com">',
+    '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
+    '<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">',
+    '<style>' + css + '</style>',
+    '</head><body>',
+    '<div class="bar"></div>',
+    '<div class="pg">',
+    '<div class="hd">',
+    '<img class="logo" src="' + LOGO + '" alt="Rechargly" crossorigin="anonymous">',
+    '<span class="site">rechargly.com</span>',
+    '</div>',
+    '<div class="rule"></div>',
+    '<div class="eyebrow">Software cost recovery</div>',
+    '<h1>The three commercial pieces checklist</h1>',
+    '<p class="intro">Use this checklist to review the three commercial gaps that cause most practices to absorb costs they should be passing on.</p>',
+    groupsHtml,
+    '<div class="ft">',
+    '<img class="logo" src="' + LOGO + '" alt="Rechargly" style="height:15px;" crossorigin="anonymous">',
+    '<span class="ft-txt">A free resource from Rechargly. Visit rechargly.com</span>',
+    '</div>',
+    '<button class="save-btn no-print" onclick="window.print()">Save as PDF</button>',
+    '</div>',
+    '<script>document.fonts.ready.then(function(){window.print();});<\/script>',
+    '</body></html>'
+  ].join('');
 
-    var opt = {
-      margin: 0,
-      filename: 'rechargly-checklist.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, allowTaint: false, backgroundColor: '#ffffff', logging: false, windowWidth: 794 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-    };
-
-    html2pdf().set(opt).from(wrap).save().then(function() {
-      document.body.removeChild(wrap);
-      if (btnEl) { btnEl.innerHTML = downloadSvg + ' Download PDF'; btnEl.disabled = false; }
-    }).catch(function() {
-      document.body.removeChild(wrap);
-      if (btnEl) { btnEl.innerHTML = downloadSvg + ' Download PDF'; btnEl.disabled = false; }
-    });
-  }
-
-  if (window.html2pdf) { run(); return; }
-  var s = document.createElement('script');
-  s.src = SCRIPT_SRC;
-  s.onload = run;
-  s.onerror = function() {
-    if (btnEl) { btnEl.innerHTML = downloadSvg + ' Download PDF'; btnEl.disabled = false; }
-  };
-  document.head.appendChild(s);
+  var blob = new Blob([html], { type: 'text/html' });
+  var url  = URL.createObjectURL(blob);
+  var w    = window.open(url, '_blank');
+  if (!w) { var a = document.createElement('a'); a.href = url; a.target = '_blank'; a.click(); }
 }
 
 /* EMAIL TEMPLATES */
@@ -1017,70 +1008,103 @@ function copyTemplate(id) {
 }
 
 function downloadTemplates() {
-  var tplHtml = '';
-  var titles = {
-    1: 'Annual fee increase',
-    2: 'New service line',
-    3: 'Software subscription pass-through'
-  };
+  var PURPLE = '#2b068a';
+  var LOGO   = 'https://cdn.prod.website-files.com/65aa019626783da5fc3fac12/661498b9f8513ceddf7325e6_rechargly-logo-no-padding.svg';
+
+  var titles  = { 1: 'Annual fee increase', 2: 'New service line', 3: 'Software subscription pass-through' };
   var useWhen = {
-    1: 'Use when: reviewing fees as part of your annual engagement rollover',
-    2: 'Use when: formalising a fee for a service you have been delivering without one, or introducing a new service such as AI-assisted reporting, cash flow forecasting, or CFO advisory work',
-    3: 'Use when: separating software subscription costs (such as Xero or MYOB) that have been bundled into your engagement fee and passing them on as a distinct line item'
+    1: 'Use when reviewing fees as part of your annual engagement rollover',
+    2: 'Use when formalising a fee for a service you have been delivering without one, or introducing a new service such as AI-assisted reporting, cash flow forecasting, or CFO advisory work',
+    3: 'Use when separating software subscription costs that have been bundled into your engagement fee and passing them on as a distinct line item'
   };
+  var nums = { 1: '01', 2: '02', 3: '03' };
+
+  var tplHtml = '';
   [1, 2, 3].forEach(function(id) {
-    var lines = templates[id].split('\n');
-    var subjectLine = lines[0].replace('Subject: ', '');
-    var body = lines.slice(2).join('\n');
-    var bodyHtml = body.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-    tplHtml += '<div class="tpl-card">'
-      + '<div class="tpl-head">'
-      + '<div class="tpl-title">' + titles[id] + '</div>'
-      + '<div class="tpl-use">' + useWhen[id] + '</div>'
-      + '<div class="tpl-subject"><span class="tpl-subject-label">Subject</span> ' + subjectLine + '</div>'
+    var lines      = templates[id].split('\n');
+    var subject    = lines[0].replace('Subject: ', '');
+    var body       = lines.slice(2).join('\n');
+    var bodyHtml   = body.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    tplHtml += '<div class="card">'
+      + '<div class="card-head">'
+      + '<span class="card-num">' + nums[id] + '</span>'
+      + '<div class="card-head-inner">'
+      + '<div class="card-title">' + titles[id] + '</div>'
+      + '<div class="card-use">' + useWhen[id] + '</div>'
       + '</div>'
-      + '<div class="tpl-body">' + bodyHtml + '</div>'
+      + '</div>'
+      + '<div class="card-subj"><span class="subj-lbl">Subject</span>' + subject + '</div>'
+      + '<div class="card-body">' + bodyHtml + '</div>'
       + '</div>';
   });
-  var logoImg = '<img src="https://cdn.prod.website-files.com/65aa019626783da5fc3fac12/661498b9f8513ceddf7325e6_rechargly-logo-no-padding.svg" alt="Rechargly" style="height:22px;width:auto;display:block;">';
-  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Fee Communication Guide | Rechargly</title>'
-    + '<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Helvetica Neue,Arial,sans-serif;color:#202a25;background:#fff;}'
-    + '.page{padding:40px 48px;max-width:720px;margin:0 auto;}'
-    + '.grad-bar{height:5px;background:linear-gradient(135deg,#5310a0,#ee35f5);-webkit-print-color-adjust:exact;print-color-adjust:exact;}'
-    + '.doc-header{display:flex;align-items:center;justify-content:space-between;padding:20px 0 18px;border-bottom:1px solid #d0d9df;margin-bottom:24px;}'
-    + '.header-right{text-align:right;}.pack-label{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9ca9b0;margin-bottom:2px;}.webinar-label{font-size:11px;color:#9ca9b0;}'
-    + 'h1{font-size:20px;font-weight:800;letter-spacing:-0.03em;color:#202a25;margin-bottom:6px;}'
-    + '.intro{font-size:13px;color:#70777c;line-height:1.7;margin-bottom:28px;}'
-    + '.tpl-card{margin-bottom:28px;border:1px solid #d0d9df;border-radius:10px;overflow:hidden;}'
-    + '.tpl-head{background:#f6f8f9;padding:14px 18px;border-bottom:1px solid #d0d9df;}'
-    + '.tpl-title{font-size:14px;font-weight:700;color:#202a25;margin-bottom:4px;}'
-    + '.tpl-use{font-size:11px;color:#9ca9b0;margin-bottom:6px;line-height:1.5;}'
-    + '.tpl-subject{font-size:12px;color:#70777c;}.tpl-subject-label{font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#9ca9b0;margin-right:5px;}'
-    + '.tpl-body{padding:18px;font-size:13px;line-height:1.8;color:#202a25;white-space:pre-wrap;}'
-    + '.footer-note{margin-top:28px;padding-top:16px;border-top:1px solid #d0d9df;font-size:11px;color:#9ca9b0;}'
-    + '.print-btn{display:block;width:100%;padding:12px;margin:24px 0 0;background:linear-gradient(135deg,#5310a0,#ee35f5);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;-webkit-print-color-adjust:exact;print-color-adjust:exact;}'
-    + '@media print{.no-print{display:none!important;}.page{padding:24px 32px;}body{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}}'
-    + '</style></head><body>'
-    + '<div class="grad-bar"></div>'
-    + '<div class="page">'
-    + '<div class="doc-header"><div>' + logoImg + '</div><div class="header-right"><div class="pack-label">Fee Communication Guide</div><div class="webinar-label">rechargly.com</div></div></div>'
-    + '<h1>Fee Communication Guide</h1>'
-    + '<p class="intro">These templates are designed to be sent ahead of your engagement renewal. The key principle: lead with the work you have been doing for the client, not the number going up. Be specific, be direct, and send them early.</p>'
-    + tplHtml
-    + '<div class="footer-note">A free resource from Rechargly. Visit rechargly.com</div>'
-    + '<button class="print-btn no-print" onclick="window.print()">Save as PDF &rarr;</button>'
-    + '</div>'
-    + '<script>window.onload=function(){setTimeout(function(){window.print();},600);};<\/script>'
-    + '</body></html>';
+
+  var css = [
+    '*{box-sizing:border-box;margin:0;padding:0;}',
+    'body{font-family:"Plus Jakarta Sans",-apple-system,"Helvetica Neue",sans-serif;color:#1f2937;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    '.bar{height:4px;background:linear-gradient(90deg,' + PURPLE + ',#7c3aed);-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    '.pg{padding:28px 54px 36px;max-width:794px;margin:0 auto;}',
+    '.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}',
+    '.logo{height:20px;width:auto;display:block;}',
+    '.site{font-size:11px;color:#9ca3af;}',
+    '.rule{height:1px;background:#e5e7eb;margin-bottom:22px;}',
+    '.eyebrow{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:' + PURPLE + ';margin-bottom:5px;}',
+    'h1{font-size:21px;font-weight:800;letter-spacing:-0.02em;color:#0d1117;line-height:1.15;margin-bottom:5px;}',
+    '.intro{font-size:12px;color:#4b5563;line-height:1.65;margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid #e5e7eb;}',
+    '.card{margin-bottom:24px;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;page-break-inside:avoid;}',
+    '.card:last-of-type{margin-bottom:0;}',
+    '.card-head{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;background:#f9fafb;border-bottom:1px solid #e5e7eb;}',
+    '.card-num{font-size:9px;font-weight:800;letter-spacing:0.04em;color:#fff;background:' + PURPLE + ';border-radius:4px;padding:3px 6px;flex-shrink:0;margin-top:1px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    '.card-head-inner{flex:1;}',
+    '.card-title{font-size:13px;font-weight:700;color:#0d1117;margin-bottom:3px;}',
+    '.card-use{font-size:11px;color:#6b7a8d;line-height:1.45;}',
+    '.card-subj{padding:7px 16px;background:#f3f0ff;border-bottom:1px solid #e5e7eb;font-size:11.5px;color:#1f2937;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    '.subj-lbl{font-size:8.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:' + PURPLE + ';margin-right:8px;}',
+    '.card-body{padding:14px 16px;font-size:12px;line-height:1.8;color:#1f2937;white-space:pre-wrap;}',
+    '.ft{display:flex;align-items:center;justify-content:space-between;margin-top:24px;padding-top:14px;border-top:1px solid #e5e7eb;}',
+    '.ft-txt{font-size:10px;color:#9ca3af;}',
+    '.save-btn{display:block;width:100%;padding:10px;margin-top:14px;background:linear-gradient(135deg,' + PURPLE + ',#7c3aed);color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    '@media print{',
+    '.no-print{display:none!important;}',
+    '.pg{padding:12px 40px;}',
+    '.card{page-break-inside:avoid;}',
+    'body{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}',
+    '}'
+  ].join('');
+
+  var html = [
+    '<!DOCTYPE html><html lang="en"><head>',
+    '<meta charset="UTF-8">',
+    '<title>Fee Communication Templates | Rechargly</title>',
+    '<link rel="preconnect" href="https://fonts.googleapis.com">',
+    '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
+    '<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">',
+    '<style>' + css + '</style>',
+    '</head><body>',
+    '<div class="bar"></div>',
+    '<div class="pg">',
+    '<div class="hd">',
+    '<img class="logo" src="' + LOGO + '" alt="Rechargly" crossorigin="anonymous">',
+    '<span class="site">rechargly.com</span>',
+    '</div>',
+    '<div class="rule"></div>',
+    '<div class="eyebrow">Software cost recovery</div>',
+    '<h1>Fee communication templates</h1>',
+    '<p class="intro">These templates are designed to be sent ahead of your engagement renewal. The key principle: lead with the work you have been doing for the client, not the number going up. Be specific, be direct, and send them early. Clients who hear about a fee change well before their engagement letter arrives push back far less than those who find out in the letter itself.</p>',
+    tplHtml,
+    '<div class="ft">',
+    '<img class="logo" src="' + LOGO + '" alt="Rechargly" style="height:15px;" crossorigin="anonymous">',
+    '<span class="ft-txt">A free resource from Rechargly. Visit rechargly.com</span>',
+    '</div>',
+    '<button class="save-btn no-print" onclick="window.print()">Save as PDF</button>',
+    '</div>',
+    '<script>document.fonts.ready.then(function(){window.print();});<\/script>',
+    '</body></html>'
+  ].join('');
+
   var blob = new Blob([html], { type: 'text/html' });
-  var url = URL.createObjectURL(blob);
-  var w = window.open(url, '_blank');
-  if (!w) {
-    var a = document.createElement('a');
-    a.href = url;
-    a.target = '_blank';
-    a.click();
-  }
+  var url  = URL.createObjectURL(blob);
+  var w    = window.open(url, '_blank');
+  if (!w) { var a = document.createElement('a'); a.href = url; a.target = '_blank'; a.click(); }
 }
 
 /* DEMO POPUP */
