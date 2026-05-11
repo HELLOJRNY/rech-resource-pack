@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Software Cost Recovery: Practical Guide | Rechargly</title>
 <style>
-/* FELLIX FONT — loaded directly from Rechargly's Webflow CDN */
+/* FELLIX FONT: loaded directly from Rechargly's Webflow CDN */
 @font-face {
   font-family: Fellix;
   src: url("https://cdn.prod.website-files.com/65aa019626783da5fc3fac12/66148008c2c73ed24a7866d1_Fellix%20Regular.ttf") format("truetype");
@@ -125,6 +125,28 @@ hr.result-sep { border: none; border-top: 1px solid var(--border); margin: 0 0 1
 .btn-demo { display: block; width: 100%; background: var(--gradient); color: #fff; font-size: 14px; font-weight: 700; text-align: center; padding: 13px; border-radius: 12px; text-decoration: none; transition: opacity 0.15s, transform 0.1s; letter-spacing: -0.01em; }
 .btn-demo:hover { opacity: 0.82; transform: translateY(-1px); }
 
+/* OUTPUT ROWS */
+.output-rows { display: flex; flex-direction: column; margin: 0.9rem 0; }
+.output-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--border); }
+.output-row:first-child { border-top: 1px solid var(--border); }
+.output-row-left { display: flex; align-items: center; gap: 0.55rem; min-width: 0; }
+.output-tag { font-size: 9px; font-weight: 800; letter-spacing: 0.07em; padding: 2px 6px; border-radius: 4px; flex-shrink: 0; text-transform: uppercase; }
+.output-tag.earn { background: rgba(83,16,160,0.1); color: #5310a0; }
+.output-tag.retain { background: rgba(238,53,245,0.12); color: #b018b8; }
+.output-tag.automate { background: rgba(83,16,160,0.06); color: #6920b8; }
+.output-row-label { font-size: 12.5px; font-weight: 500; color: var(--text); white-space: nowrap; }
+.output-row-val { font-size: 13px; font-weight: 700; color: var(--text); text-align: right; flex-shrink: 0; }
+.output-selfpay { font-size: 11px; color: var(--muted); font-weight: 400; line-height: 1.5; padding-top: 0.5rem; margin-bottom: 1rem; }
+.output-secondary-cta { font-size: 11.5px; color: var(--muted); font-weight: 400; text-align: center; margin-top: 0.75rem; line-height: 1.5; }
+.output-secondary-cta a { color: var(--purple); font-weight: 600; text-decoration: none; }
+.output-secondary-cta a:hover { text-decoration: underline; }
+
+/* SELECT (hourly rate) */
+.field-select-wrap { position: relative; }
+.field-select { width: 100%; padding: 10px 36px 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 400; color: var(--text); background: var(--bg); outline: none; transition: border-color 0.15s; cursor: pointer; -webkit-appearance: none; appearance: none; }
+.field-select:focus { border-color: var(--purple); }
+.field-select-wrap::after { content: ''; position: absolute; right: 13px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid var(--muted); pointer-events: none; }
+
 /* CHECKLIST */
 .checklist { display: flex; flex-direction: column; gap: 1.75rem; }
 .checklist-group-title { font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
@@ -203,7 +225,7 @@ hr.result-sep { border: none; border-top: 1px solid var(--border); margin: 0 0 1
 .demo-popup-dismiss { display: block; width: 100%; text-align: center; font-size: 12px; color: var(--muted); font-weight: 400; cursor: pointer; background: none; border: none; font-family: inherit; padding: 2px; transition: color 0.15s; }
 .demo-popup-dismiss:hover { color: var(--mid); }
 
-/* FINAL CTA — matches rechargly.webflow.io section_cta_book_demo exactly */
+/* FINAL CTA: matches rechargly.webflow.io section_cta_book_demo exactly */
 .cta-section { background: #ee35f51a; }
 .cta-inner { padding: 7rem 2rem; max-width: 64rem; margin: 0 auto; }
 .cta-card-border { padding: 2px 2px 5px 3px; background: linear-gradient(135deg, #5310a0, #ee35f5); border-radius: 1.25rem; box-shadow: 0 12px 16px -4px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.03); }
@@ -245,18 +267,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
             <input class="form-input" type="text" id="gate-lastname" placeholder="Your last name" autocomplete="family-name">
             <div class="field-error" id="lastname-error">Please enter your last name.</div>
           </div>
-        </div>
-        <div class="form-field">
-          <label class="form-label" for="gate-email">Work email</label>
-          <input class="form-input" type="email" id="gate-email" placeholder="you@yourfirm.com.au" autocomplete="email">
-          <div class="field-error" id="email-error">Please enter a valid email address.</div>
-        </div>
-        <div class="form-field">
-          <div class="check-row">
-            <input type="checkbox" id="gate-consent">
-            <label class="check-label" for="gate-consent">I consent to receive updates from Rechargly.</label>
-          </div>
-          <div class="field-error" id="consent-error">Please tick the checkbox to continue.</div>
         </div>
         <button type="button" class="modal-submit" onclick="submitGateForm()">Get the resources</button>
       </form>
@@ -340,15 +350,15 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
                       </div>
                       <span class="field-val" id="clients-out">50</span>
                     </div>
-                    <input type="range" id="clients" min="5" max="300" step="5" value="50" oninput="calc()">
-                    <div class="tick-labels"><span>5</span><span>75</span><span>150</span><span>225</span><span>300</span></div>
+                    <input type="range" id="clients" min="5" max="2000" step="5" value="50" oninput="calc()">
+                    <div class="tick-labels"><span>5</span><span>250</span><span>500</span><span>750</span><span>1000</span><span>1250</span><span>1500</span><span>1750</span><span>2000</span></div>
                   </div>
 
                   <div>
                     <div class="field-header">
                       <div>
                         <div class="field-label">Software subscriptions per client</div>
-                        <div class="field-hint">Xero, Dext, Hubdoc, Ignition, Fathom, AutoEntry...</div>
+                        <div class="field-hint">Xero, Spotlight, ApprovalMax, Fathom, QuickBooks...</div>
                       </div>
                       <span class="field-val" id="subs-out">3</span>
                     </div>
@@ -360,12 +370,12 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
                     <div class="field-header">
                       <div>
                         <div class="field-label">Average monthly cost per subscription</div>
-                        <div class="field-hint">AUD. Xero ~$35-65, Dext ~$55, Hubdoc ~$30</div>
+                        <div class="field-hint">AUD. Xero from ~$25–$35 per client per month</div>
                       </div>
-                      <span class="field-val" id="cost-out">$45</span>
+                      <span class="field-val" id="cost-out">$50</span>
                     </div>
-                    <input type="range" id="cost" min="10" max="150" step="5" value="45" oninput="calc()">
-                    <div class="tick-labels"><span>$10</span><span>$45</span><span>$80</span><span>$115</span><span>$150</span></div>
+                    <input type="range" id="cost" min="25" max="150" step="5" value="50" oninput="calc()">
+                    <div class="tick-labels"><span>$25</span><span>$50</span><span>$75</span><span>$100</span><span>$125</span><span>$150</span></div>
                   </div>
 
                   <hr class="sep">
@@ -373,7 +383,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
                   <div>
                     <div class="field-header">
                       <div>
-                        <div class="field-label">% of costs currently recovered</div>
+                        <div class="field-label">Estimated percentage of cost recovered</div>
                         <div class="field-hint">Passed on via invoices, bundled into fees, or charged directly</div>
                       </div>
                       <span class="field-val" id="recovery-out">10%</span>
@@ -381,34 +391,76 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
                     <input type="range" id="recovery" min="0" max="100" step="5" value="10" oninput="calc()">
                     <div class="tick-labels"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
                   </div>
+
+                  <div>
+                    <div class="field-header">
+                      <div>
+                        <div class="field-label">Your team's average hourly rate</div>
+                        <div class="field-hint">Used to estimate admin time cost (AUD)</div>
+                      </div>
+                    </div>
+                    <div class="field-select-wrap">
+                      <select id="hourly-rate" class="field-select" onchange="calc()">
+                        <option value="30">$30 / hr (Junior / bookkeeper)</option>
+                        <option value="50" selected>$50 / hr (Default)</option>
+                        <option value="75">$75 / hr (Senior / partner)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="field-header">
+                      <div>
+                        <div class="field-label">Display currency</div>
+                        <div class="field-hint">Inputs stay in AUD. Outputs are converted.</div>
+                      </div>
+                    </div>
+                    <div class="field-select-wrap">
+                      <select id="currency" class="field-select" onchange="calc()">
+                        <option value="AUD" selected>AUD: Australian dollar</option>
+                        <option value="GBP">GBP: British pound (×0.52)</option>
+                        <option value="NZD">NZD: New Zealand dollar (×1.18)</option>
+                        <option value="USD">USD: US dollar (×0.65)</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="result-panel">
                   <div class="result-panel-body">
-                    <div class="result-eyebrow">Your firm is absorbing</div>
-                    <div class="result-amount" id="annual-out">$97,200</div>
-                    <div class="result-sublabel" id="annual-label">per year in unrecovered software costs</div>
-                    <div class="stats">
-                      <div class="stat">
-                        <span class="stat-val" id="stat-month">$8,100</span>
-                        <span class="stat-lbl">per month</span>
+                    <div class="result-eyebrow">Total annual opportunity</div>
+                    <div class="result-amount" id="total-out">$126,000+</div>
+                    <div class="result-sublabel">across three areas</div>
+
+                    <div class="output-rows">
+                      <div class="output-row">
+                        <div class="output-row-left">
+                          <span class="output-tag earn">EARN</span>
+                          <span class="output-row-label">Unrecovered costs</span>
+                        </div>
+                        <span class="output-row-val" id="annual-out">$97,200</span>
                       </div>
-                      <div class="stat">
-                        <span class="stat-val" id="stat-per-client">$1,944</span>
-                        <span class="stat-lbl">per client / year</span>
+                      <div class="output-row">
+                        <div class="output-row-left">
+                          <span class="output-tag retain">RETAIN</span>
+                          <span class="output-row-label">Billing leakage</span>
+                        </div>
+                        <span class="output-row-val" id="leakage-out">$7,560–$10,970</span>
                       </div>
-                      <div class="stat">
-                        <span class="stat-val" id="stat-total">$108,000</span>
-                        <span class="stat-lbl">total software spend</span>
-                      </div>
-                      <div class="stat">
-                        <span class="stat-val" id="stat-fte">0.8 FTEs</span>
-                        <span class="stat-lbl">salary equivalent</span>
+                      <div class="output-row">
+                        <div class="output-row-left">
+                          <span class="output-tag automate">AUTOMATE</span>
+                          <span class="output-row-label">Admin time</span>
+                        </div>
+                        <span class="output-row-val" id="admin-out">$9,000–$19,800</span>
                       </div>
                     </div>
+
+                    <div class="output-selfpay">Rechargly pays for itself at just $3–4 per client per month</div>
+
                     <hr class="result-sep">
-                    <p class="result-copy">Rechargly automates software cost recovery through Xero. No manual invoicing, no chasing clients.</p>
                     <a href="https://meetings.hubspot.com/alex3005/rechargly-demo" class="btn-demo" target="_blank" rel="noopener">Book a free demo &rarr;</a>
+                    <div class="output-secondary-cta">Want the full picture? <a href="https://meetings.hubspot.com/alex3005/rechargly-demo" target="_blank" rel="noopener">We'll build a custom business case with your actual data.</a></div>
                   </div>
                 </div>
 
@@ -674,7 +726,7 @@ Your updated engagement letter will include this change. Please get in touch if 
                   Download all templates
                 </button>
               </div>
-              <p class="templates-guide-footer">A free resource from Rechargly — rechargly.com</p>
+              <p class="templates-guide-footer">A free resource from Rechargly. Visit rechargly.com</p>
             </div>
           </div>
         </div>
@@ -732,8 +784,37 @@ function toggleAccordion(id) {
 }
 
 /* CALCULATOR */
+var CURRENCIES = {
+  AUD: { symbol: 'A$',   rate: 1.0  },
+  GBP: { symbol: '£',    rate: 0.52 },
+  NZD: { symbol: 'NZ$',  rate: 1.18 },
+  USD: { symbol: 'US$',  rate: 0.65 }
+};
+
+function detectCurrency() {
+  var lang = (navigator.language || '').toLowerCase();
+  if (lang.startsWith('en-gb')) return 'GBP';
+  if (lang.startsWith('en-nz')) return 'NZD';
+  if (lang.startsWith('en-us') || lang === 'en') return 'USD';
+  return 'AUD';
+}
+
+(function applyCurrencyFromLocale() {
+  var sel = document.getElementById('currency');
+  if (sel) sel.value = detectCurrency();
+})();
+
+function getCur() {
+  var sel = document.getElementById('currency');
+  return CURRENCIES[sel ? sel.value : 'AUD'];
+}
 function fmtAUD(n) {
-  return '$' + Math.round(n).toLocaleString('en-AU');
+  var cur = getCur();
+  var v = Math.round(n * cur.rate);
+  return cur.symbol + v.toLocaleString('en-AU');
+}
+function fmtRange(lo, hi) {
+  return fmtAUD(lo) + '–' + fmtAUD(hi);
 }
 function updateSliderFill(el) {
   var pct = ((parseFloat(el.value) - parseFloat(el.min)) / (parseFloat(el.max) - parseFloat(el.min))) * 100;
@@ -744,29 +825,40 @@ function calc() {
   var subs     = parseInt(document.getElementById('subs').value);
   var cost     = parseInt(document.getElementById('cost').value);
   var recovPct = parseInt(document.getElementById('recovery').value);
+  var rate     = parseInt(document.getElementById('hourly-rate').value);
 
   document.getElementById('clients-out').textContent  = clients;
   document.getElementById('subs-out').textContent     = subs;
-  document.getElementById('cost-out').textContent     = '$' + cost;
+  document.getElementById('cost-out').textContent     = 'A$' + cost;
   document.getElementById('recovery-out').textContent = recovPct + '%';
 
   document.querySelectorAll('input[type=range]').forEach(updateSliderFill);
 
-  var totalMonthly   = clients * subs * cost;
-  var absorbedMo     = totalMonthly * (1 - recovPct / 100);
-  var absorbedAnnual = absorbedMo * 12;
-  var perClient      = clients > 0 ? absorbedAnnual / clients : 0;
-  var fteEquiv       = (absorbedAnnual / 120000).toFixed(1);
+  // Unrecovered costs (EARN)
+  var total_monthly    = clients * subs * cost;
+  var total_annual     = total_monthly * 12;
+  var absorbed_monthly = total_monthly * (1 - recovPct / 100);
+  var absorbed_annual  = absorbed_monthly * 12;
 
-  document.getElementById('annual-out').textContent = fmtAUD(absorbedAnnual);
-  document.getElementById('annual-label').textContent = recovPct === 100
-    ? "you're already recovering everything"
-    : 'per year in unrecovered software costs';
+  // Billing leakage (RETAIN): 7%-10.15% of total annual spend
+  var leakage_low  = total_annual * 0.07;
+  var leakage_high = total_annual * 0.1015;
 
-  document.getElementById('stat-month').textContent      = fmtAUD(absorbedMo);
-  document.getElementById('stat-per-client').textContent = fmtAUD(perClient);
-  document.getElementById('stat-total').textContent      = fmtAUD(totalMonthly * 12);
-  document.getElementById('stat-fte').textContent        = fteEquiv + ' FTEs';
+  // Admin time (AUTOMATE): spec formula using seconds per change
+  // Low: 50s per change, High: 55s per change; 2.2x overhead multiplier
+  var changes_per_month     = (clients / 25) * 7.5;
+  var avg_hours_low         = (changes_per_month * 50) / 3600;
+  var avg_hours_high        = (changes_per_month * 55) / 3600;
+  var admin_annual_low      = avg_hours_low  * 2.2 * 12 * rate;
+  var admin_annual_high     = avg_hours_high * 2.2 * 12 * rate;
+
+  // Total opportunity (conservative: low ends + unrecovered)
+  var total_opportunity = absorbed_annual + leakage_low + admin_annual_low;
+
+  document.getElementById('annual-out').textContent  = recovPct === 100 ? fmtAUD(0) : fmtAUD(absorbed_annual);
+  document.getElementById('leakage-out').textContent = fmtRange(leakage_low, leakage_high);
+  document.getElementById('admin-out').textContent   = fmtRange(admin_annual_low, admin_annual_high);
+  document.getElementById('total-out').textContent   = fmtAUD(total_opportunity) + '+';
 }
 calc();
 
@@ -975,7 +1067,7 @@ function downloadTemplates() {
     + '<h1>Fee Communication Guide</h1>'
     + '<p class="intro">These templates are designed to be sent ahead of your engagement renewal. The key principle: lead with the work you have been doing for the client, not the number going up. Be specific, be direct, and send them early.</p>'
     + tplHtml
-    + '<div class="footer-note">A free resource from Rechargly — rechargly.com</div>'
+    + '<div class="footer-note">A free resource from Rechargly. Visit rechargly.com</div>'
     + '<button class="print-btn no-print" onclick="window.print()">Save as PDF &rarr;</button>'
     + '</div>'
     + '<script>window.onload=function(){setTimeout(function(){window.print();},600);};<\/script>'
@@ -1007,12 +1099,12 @@ document.querySelectorAll('input[type=range]').forEach(function(el) {
 function showDemoPopup() {
   if (demoShown) return;
   demoShown = true;
-  var amountEl = document.getElementById('annual-out');
+  var amountEl = document.getElementById('total-out');
   var amount   = amountEl ? amountEl.textContent.trim() : null;
   var headline = document.getElementById('demo-popup-title');
   if (headline) {
-    headline.textContent = (amount && amount !== '$0')
-      ? 'Your firm is absorbing ' + amount + ' per year. Ready to fix it?'
+    headline.textContent = (amount && amount !== '$0+')
+      ? 'Your firm has a ' + amount + ' annual opportunity. Ready to act on it?'
       : 'Ready to fix your software costs permanently?';
   }
   var overlay = document.getElementById('demo-popup-overlay');
@@ -1031,16 +1123,11 @@ function dismissDemoPopup() {
 function submitGateForm() {
   var name     = document.getElementById('gate-name').value.trim();
   var lastname = document.getElementById('gate-lastname').value.trim();
-  var email    = document.getElementById('gate-email').value.trim();
 
   var nameEl      = document.getElementById('gate-name');
   var lastnameEl  = document.getElementById('gate-lastname');
-  var emailEl     = document.getElementById('gate-email');
   var nameErr     = document.getElementById('name-error');
   var lastnameErr = document.getElementById('lastname-error');
-  var emailErr    = document.getElementById('email-error');
-
-  function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
   var ok = true;
 
@@ -1056,19 +1143,33 @@ function submitGateForm() {
     lastnameEl.classList.remove('is-error'); lastnameErr.classList.remove('show');
   }
 
-  if (!validEmail(email)) {
-    emailEl.classList.add('is-error'); emailErr.classList.add('show'); ok = false;
-  } else {
-    emailEl.classList.remove('is-error'); emailErr.classList.remove('show');
-  }
-
   if (!ok) return;
 
+  // Unlock immediately: don't wait for the network request
   var overlay = document.getElementById('modal-overlay');
   overlay.style.display = 'none';
   document.body.style.overflow = '';
   gatePassed = true;
+
+  // POST name + timestamp to Formspree (fire-and-forget, non-blocking)
+  // SETUP: Go to formspree.io, sign up free, create a new form, copy the
+  // endpoint URL (looks like https://formspree.io/f/abcdefgh) and paste below.
+  // Submissions will appear in your Formspree dashboard and can be exported to CSV.
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyWCiqLUtWyHnHSHy2RHvLEVYFqsYaUIEE3MA3O_boS2Pym_yUiyffahD0BG4tl_7pOew/exec';
+  fetch(ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      first_name:  name,
+      last_name:   lastname,
+      accessed_at: new Date().toISOString()
+    })
+  }).catch(function() {});
 }
+
+document.getElementById('gate-form').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); submitGateForm(); }
+});
 </script>
 </body>
 </html>
