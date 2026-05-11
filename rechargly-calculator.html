@@ -1199,20 +1199,27 @@ function submitGateForm() {
   document.body.style.overflow = '';
   gatePassed = true;
 
-  // POST name + timestamp to Formspree (fire-and-forget, non-blocking)
-  // SETUP: Go to formspree.io, sign up free, create a new form, copy the
-  // endpoint URL (looks like https://formspree.io/f/abcdefgh) and paste below.
-  // Submissions will appear in your Formspree dashboard and can be exported to CSV.
+  // POST name + timestamp to Google Apps Script (fire-and-forget, non-blocking).
+  // Uses mode:'no-cors' + Content-Type:'text/plain' to avoid the CORS preflight
+  // that GAS cannot respond to. The body arrives in e.postData.contents on the
+  // Apps Script side and should be parsed with JSON.parse(e.postData.contents).
   var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyWCiqLUtWyHnHSHy2RHvLEVYFqsYaUIEE3MA3O_boS2Pym_yUiyffahD0BG4tl_7pOew/exec';
+  var payload  = { first_name: name, last_name: lastname, accessed_at: new Date().toISOString() };
+
+  console.log('[Rechargly gate] Sending submission:', payload);
+
   fetch(ENDPOINT, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({
-      first_name:  name,
-      last_name:   lastname,
-      accessed_at: new Date().toISOString()
-    })
-  }).catch(function() {});
+    mode:   'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+    body:   JSON.stringify(payload)
+  }).then(function(res) {
+    // Response is opaque with no-cors — we cannot read the body or status code,
+    // but reaching .then() confirms the request was dispatched without a network error.
+    console.log('[Rechargly gate] Request dispatched. Response type:', res.type);
+  }).catch(function(err) {
+    console.warn('[Rechargly gate] Fetch failed (network error):', err);
+  });
 }
 
 document.getElementById('gate-form').addEventListener('keydown', function(e) {
