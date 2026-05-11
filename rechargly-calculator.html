@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stop Undercharging: Resource Pack | Rechargly</title>
+<title>Software Cost Recovery: Practical Guide | Rechargly</title>
 <style>
 /* FELLIX FONT — loaded directly from Rechargly's Webflow CDN */
 @font-face {
@@ -203,16 +203,16 @@ hr.result-sep { border: none; border-top: 1px solid var(--border); margin: 0 0 1
 .demo-popup-dismiss { display: block; width: 100%; text-align: center; font-size: 12px; color: var(--muted); font-weight: 400; cursor: pointer; background: none; border: none; font-family: inherit; padding: 2px; transition: color 0.15s; }
 .demo-popup-dismiss:hover { color: var(--mid); }
 
-/* FINAL CTA */
-.cta-section { background: var(--surface); padding: 2rem 1.5rem 3rem; margin-top: 2rem; }
-.cta-inner { max-width: 680px; margin: 0 auto; }
-.cta-card-border { padding: 2px 2px 5px 3px; background: var(--gradient); border-radius: 20px; }
-.cta-card { background: var(--bg); border-radius: 18px 18px 17px 17px; display: flex; justify-content: space-between; align-items: center; padding: 3rem 2rem; gap: 1.5rem; flex-wrap: wrap; }
-.cta-h2 { font-size: clamp(20px, 3vw, 28px); font-weight: 600; color: var(--text); line-height: 1.2; flex: 1; margin: 0; }
-.color-blend { background-image: linear-gradient(103deg, var(--purple), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.btn-cta-primary { display: inline-flex; align-items: center; background: var(--gradient); color: #fff; font-family: inherit; font-size: 1.25rem; font-weight: 500; padding: 1.25rem 1rem; border-radius: 8px; text-decoration: none; border: none; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: opacity 0.15s; }
-.btn-cta-primary:hover { opacity: 0.82; }
-@media (max-width: 520px) { .cta-card { padding: 1.5rem 1rem; } .cta-h2 { font-size: 1.25rem; } .btn-cta-primary { width: 100%; justify-content: center; font-size: 1rem; } }
+/* FINAL CTA — matches rechargly.webflow.io section_cta_book_demo exactly */
+.cta-section { background: #ee35f51a; }
+.cta-inner { padding: 7rem 2rem; max-width: 64rem; margin: 0 auto; }
+.cta-card-border { padding: 2px 2px 5px 3px; background: linear-gradient(135deg, #5310a0, #ee35f5); border-radius: 1.25rem; box-shadow: 0 12px 16px -4px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.03); }
+.cta-card { background: #fff; border-radius: 1.125rem 1.125rem 1.0625rem 1.0625rem; display: flex; justify-content: space-between; align-items: center; padding: 3rem 2rem; gap: 1.5rem; }
+.cta-h2 { font-size: 2rem; font-weight: 600; line-height: 1.2; color: var(--text); margin: 0; }
+.color-blend { background-image: linear-gradient(103deg, #5310a0, #ee35f5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.btn-cta-primary { display: inline-block; background: linear-gradient(135deg, #5310a0, #ee35f5); color: #fff; font-family: inherit; font-size: 1.25rem; font-weight: 500; padding: 1.25rem 1rem; border-radius: 0.5rem; text-decoration: none; white-space: nowrap; flex-shrink: 0; transition: opacity 0.15s; }
+.btn-cta-primary:hover { opacity: 0.85; }
+@media (max-width: 640px) { .cta-inner { padding: 4rem 1.5rem; } .cta-card { flex-direction: column; gap: 1rem; padding: 1.5rem 1rem; } .btn-cta-primary { width: 100%; text-align: center; } }
 
 /* FOOTER */
 footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2rem; flex-shrink: 0; }
@@ -232,9 +232,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
     <div class="modal-bar"></div>
     <div class="modal-body">
       <img class="modal-logo" src="https://cdn.prod.website-files.com/65aa019626783da5fc3fac12/661498b9f8513ceddf7325e6_rechargly-logo-no-padding.svg" alt="Rechargly">
-      <div class="modal-title" id="modal-title">Free resource pack</div>
-      <div class="modal-sub-head">Stop absorbing software costs.</div>
-      <div class="modal-sub">A free calculator, checklist, and email templates for your practice.</div>
+      <div class="modal-title" id="modal-title">Free practical guide</div>
       <form id="gate-form" novalidate>
         <div class="form-row">
           <div class="form-field-inline">
@@ -243,9 +241,9 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
             <div class="field-error" id="name-error">Please enter your first name.</div>
           </div>
           <div class="form-field-inline">
-            <label class="form-label" for="gate-firm">Firm name</label>
-            <input class="form-input" type="text" id="gate-firm" placeholder="Your firm" autocomplete="organization">
-            <div class="field-error" id="firm-error">Please enter your firm name.</div>
+            <label class="form-label" for="gate-lastname">Last name</label>
+            <input class="form-input" type="text" id="gate-lastname" placeholder="Your last name" autocomplete="family-name">
+            <div class="field-error" id="lastname-error">Please enter your last name.</div>
           </div>
         </div>
         <div class="form-field">
@@ -301,10 +299,10 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
   <div class="hero-inner">
     <div class="hero-badge">
       <span class="hero-badge-dot"></span>
-      Stop Undercharging webinar
+      Free resource pack
     </div>
-    <h1>Your resources from today's session.</h1>
-    <p class="hero-sub">The webinar covered three areas where firms leave money on the table. Select a resource below to get started.</p>
+    <h1>Stop absorbing software costs before this financial year is out.</h1>
+    <p class="hero-sub">Most practices absorb thousands in software subscription costs every year and never recover them. This practical guide gives you three tools to find your number, fix the gaps in your engagement letters, and get changes in front of clients before 1 July.</p>
   </div>
 </div>
 
@@ -676,7 +674,7 @@ Your updated engagement letter will include this change. Please get in touch if 
                   Download all templates
                 </button>
               </div>
-              <p class="templates-guide-footer">This guide was produced as part of the Rechargly webinar resource pack: Stop Undercharging and Start the New Year Right, 12 May 2026.</p>
+              <p class="templates-guide-footer">A free resource from Rechargly — rechargly.com</p>
             </div>
           </div>
         </div>
@@ -691,8 +689,8 @@ Your updated engagement letter will include this change. Please get in touch if 
   <div class="cta-inner">
     <div class="cta-card-border">
       <div class="cta-card">
-        <h2 class="cta-h2">Ready to fix <span class="color-blend">software costs</span> permanently?</h2>
-        <a href="https://meetings.hubspot.com/alex3005/rechargly-demo" class="btn-cta-primary" target="_blank" rel="noopener">Book a demo</a>
+        <h2 class="cta-h2">Get a <span class="color-blend">personalised</span> product tour</h2>
+        <a href="https://meetings.hubspot.com/alex3005/rechargly-demo" class="btn-cta-primary" target="_blank" rel="noopener">Book a product demo</a>
       </div>
     </div>
   </div>
@@ -817,37 +815,40 @@ function downloadChecklist() {
 
     var groupsHtml = groups.map(function(g, i) {
       var rows = g.items.map(function(item) {
-        var boxStyle = 'width:18px;height:18px;min-width:18px;border-radius:3px;border:1.5px solid #d0d9df;margin-top:2px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;'
-          + (item.checked ? 'background:#5310a0;border-color:#5310a0;' : '');
+        var boxStyle = 'width:16px;height:16px;min-width:16px;border-radius:3px;border:1.5px solid #d0d9df;margin-top:3px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;'
+          + (item.checked ? 'background:#5310a0;border-color:#5310a0;' : 'background:#fff;');
         var checkmark = item.checked
-          ? '<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+          ? '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
           : '';
-        var txtStyle = item.checked ? 'color:#9ca9b0;text-decoration:line-through;' : 'color:#202a25;';
-        return '<div style="display:flex;align-items:flex-start;gap:12px;padding:9px 0;border-bottom:1px solid #f0f3f5;">'
+        var txtStyle = item.checked ? 'color:#b0bcc5;text-decoration:line-through;' : 'color:#202a25;';
+        return '<div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #f0f3f5;">'
           + '<span style="' + boxStyle + '">' + checkmark + '</span>'
-          + '<span style="font-size:13.5px;line-height:1.55;' + txtStyle + '">' + item.text + '</span>'
+          + '<span style="font-size:13px;line-height:1.6;' + txtStyle + '">' + item.text + '</span>'
           + '</div>';
       }).join('');
-      return '<div style="' + (i < groups.length - 1 ? 'margin-bottom:28px;' : '') + '">'
-        + '<div style="font-size:11px;font-weight:700;letter-spacing:0.01em;color:#5310a0;text-transform:none;padding-bottom:9px;border-bottom:2px solid #5310a0;margin-bottom:0;">' + g.title + '</div>'
+      return '<div style="' + (i < groups.length - 1 ? 'margin-bottom:32px;' : '') + '">'
+        + '<div style="font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#5310a0;padding-bottom:10px;border-bottom:2px solid #5310a0;margin-bottom:2px;">' + g.title + '</div>'
         + rows + '</div>';
     }).join('');
 
     var wrap = document.createElement('div');
-    wrap.style.cssText = 'position:absolute;left:-9999px;top:0;width:794px;font-family:Fellix,"Helvetica Neue",Arial,sans-serif;color:#202a25;background:#fff;';
+    wrap.style.cssText = 'position:absolute;left:-9999px;top:0;width:794px;font-family:"Helvetica Neue",Arial,sans-serif;color:#202a25;background:#fff;';
     wrap.innerHTML =
-      '<div>'
-      + '<div style="padding:36px 56px 0;display:flex;align-items:center;">'
-      + '<img src="' + logoSrc + '" style="height:26px;width:auto;display:block;" crossorigin="anonymous">'
+      '<div style="background:#fff;">'
+      + '<div style="padding:32px 56px 0;display:flex;align-items:center;justify-content:space-between;">'
+      + '<img src="' + logoSrc + '" style="height:24px;width:auto;display:block;" crossorigin="anonymous">'
+      + '<span style="font-size:11px;color:#9ca9b0;font-weight:400;">rechargly.com</span>'
       + '</div>'
-      + '<img src="' + gradBar + '" style="display:block;width:100%;height:4px;margin-top:20px;">'
-      + '<div style="padding:32px 56px 48px;">'
-      + '<div style="font-size:22px;font-weight:800;letter-spacing:-0.03em;color:#202a25;margin-bottom:28px;line-height:1.2;">The three commercial pieces checklist</div>'
+      + '<img src="' + gradBar + '" style="display:block;width:100%;height:5px;margin-top:24px;">'
+      + '<div style="padding:40px 56px 8px;">'
+      + '<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#5310a0;margin-bottom:10px;">Software cost recovery</div>'
+      + '<div style="font-size:26px;font-weight:800;letter-spacing:-0.03em;color:#202a25;line-height:1.15;margin-bottom:10px;">The three commercial pieces checklist</div>'
+      + '<div style="font-size:13px;color:#70777c;line-height:1.65;margin-bottom:36px;">Use this checklist to review the three commercial gaps that cause most practices to absorb costs they should be passing on.</div>'
       + groupsHtml
       + '</div>'
-      + '<img src="' + gradFoot + '" style="display:block;width:100%;height:2px;">'
+      + '<img src="' + gradFoot + '" style="display:block;width:100%;height:3px;margin-top:40px;">'
       + '<div style="padding:14px 56px;display:flex;align-items:center;justify-content:space-between;">'
-      + '<img src="' + logoSrc + '" style="height:18px;width:auto;display:block;" crossorigin="anonymous">'
+      + '<img src="' + logoSrc + '" style="height:17px;width:auto;display:block;" crossorigin="anonymous">'
       + '<span style="font-size:11px;color:#9ca9b0;">rechargly.com</span>'
       + '</div></div>';
 
@@ -974,7 +975,7 @@ function downloadTemplates() {
     + '<h1>Fee Communication Guide</h1>'
     + '<p class="intro">These templates are designed to be sent ahead of your engagement renewal. The key principle: lead with the work you have been doing for the client, not the number going up. Be specific, be direct, and send them early.</p>'
     + tplHtml
-    + '<div class="footer-note">This guide was produced as part of the Rechargly webinar resource pack: Stop Undercharging and Start the New Year Right, 12 May 2026.</div>'
+    + '<div class="footer-note">A free resource from Rechargly — rechargly.com</div>'
     + '<button class="print-btn no-print" onclick="window.print()">Save as PDF &rarr;</button>'
     + '</div>'
     + '<script>window.onload=function(){setTimeout(function(){window.print();},600);};<\/script>'
@@ -991,89 +992,82 @@ function downloadTemplates() {
 }
 
 /* DEMO POPUP */
-var sliderUsed       = false;
-var gatePassed       = false;
-var demoScheduled    = false;
-var demoShown        = false;
+var gatePassed = false;
+var demoShown  = false;
+var demoTimer  = null;
 
-document.querySelectorAll(‘input[type=range]’).forEach(function(el) {
-  el.addEventListener(‘input’, function() {
-    if (!sliderUsed) { sliderUsed = true; maybeTriggerDemo(); }
+document.querySelectorAll('input[type=range]').forEach(function(el) {
+  el.addEventListener('input', function() {
+    if (demoShown || !gatePassed) return;
+    clearTimeout(demoTimer);
+    demoTimer = setTimeout(showDemoPopup, 5000);
   });
 });
 
-function maybeTriggerDemo() {
-  if (!sliderUsed || !gatePassed || demoScheduled) return;
-  demoScheduled = true;
-  setTimeout(function() {
-    if (demoShown) return;
-    demoShown = true;
-    var amountEl = document.getElementById(‘annual-out’);
-    var amount   = amountEl ? amountEl.textContent.trim() : null;
-    var headline = document.getElementById(‘demo-popup-title’);
-    if (headline && amount && amount !== ‘$0’) {
-      headline.textContent = 'You\u2019re absorbing ' + amount + ' a year. Let\u2019s fix that.';
-    }
-    var overlay = document.getElementById(‘demo-popup-overlay’);
-    if (overlay) overlay.classList.add(‘show’);
-  }, 30000);
+function showDemoPopup() {
+  if (demoShown) return;
+  demoShown = true;
+  var amountEl = document.getElementById('annual-out');
+  var amount   = amountEl ? amountEl.textContent.trim() : null;
+  var headline = document.getElementById('demo-popup-title');
+  if (headline) {
+    headline.textContent = (amount && amount !== '$0')
+      ? 'Your firm is absorbing ' + amount + ' per year. Ready to fix it?'
+      : 'Ready to fix your software costs permanently?';
+  }
+  var overlay = document.getElementById('demo-popup-overlay');
+  if (overlay) overlay.classList.add('show');
 }
 
 function dismissDemoPopup() {
-  var overlay = document.getElementById(‘demo-popup-overlay’);
+  var overlay = document.getElementById('demo-popup-overlay');
   if (!overlay) return;
-  overlay.classList.remove(‘show’);
-  overlay.classList.add(‘hide’);
-  setTimeout(function() { overlay.style.display = ‘none’; }, 300);
+  overlay.classList.remove('show');
+  overlay.classList.add('hide');
+  setTimeout(function() { overlay.style.display = 'none'; }, 300);
 }
 
 /* GATE MODAL */
 function submitGateForm() {
-  var nameEl     = document.getElementById('gate-name');
-  var firmEl     = document.getElementById('gate-firm');
-  var emailEl    = document.getElementById('gate-email');
-  var consentEl  = document.getElementById('gate-consent');
-  var nameErr    = document.getElementById('name-error');
-  var firmErr    = document.getElementById('firm-error');
-  var emailErr   = document.getElementById('email-error');
-  var consentErr = document.getElementById('consent-error');
+  var name     = document.getElementById('gate-name').value.trim();
+  var lastname = document.getElementById('gate-lastname').value.trim();
+  var email    = document.getElementById('gate-email').value.trim();
 
-  function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
+  var nameEl      = document.getElementById('gate-name');
+  var lastnameEl  = document.getElementById('gate-lastname');
+  var emailEl     = document.getElementById('gate-email');
+  var nameErr     = document.getElementById('name-error');
+  var lastnameErr = document.getElementById('lastname-error');
+  var emailErr    = document.getElementById('email-error');
+
+  function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
   var ok = true;
 
-  if (!nameEl.value.trim()) {
+  if (!name) {
     nameEl.classList.add('is-error'); nameErr.classList.add('show'); ok = false;
   } else {
     nameEl.classList.remove('is-error'); nameErr.classList.remove('show');
   }
 
-  if (!firmEl.value.trim()) {
-    firmEl.classList.add('is-error'); firmErr.classList.add('show'); ok = false;
+  if (!lastname) {
+    lastnameEl.classList.add('is-error'); lastnameErr.classList.add('show'); ok = false;
   } else {
-    firmEl.classList.remove('is-error'); firmErr.classList.remove('show');
+    lastnameEl.classList.remove('is-error'); lastnameErr.classList.remove('show');
   }
 
-  if (!validEmail(emailEl.value)) {
+  if (!validEmail(email)) {
     emailEl.classList.add('is-error'); emailErr.classList.add('show'); ok = false;
   } else {
     emailEl.classList.remove('is-error'); emailErr.classList.remove('show');
   }
 
-  if (!consentEl.checked) {
-    consentErr.classList.add('show'); ok = false;
-  } else {
-    consentErr.classList.remove('show');
-  }
+  if (!ok) return;
 
-  if (ok) {
-    var overlay = document.getElementById('modal-overlay');
-    overlay.style.opacity = '0';
-    overlay.style.pointerEvents = 'none';
-    setTimeout(function() { overlay.style.display = 'none'; }, 300);
-    gatePassed = true;
-    maybeTriggerDemo();
-  }
+  var overlay = document.getElementById('modal-overlay');
+  overlay.style.display = 'none';
+  document.body.style.overflow = '';
+  gatePassed = true;
 }
 </script>
 </body>
