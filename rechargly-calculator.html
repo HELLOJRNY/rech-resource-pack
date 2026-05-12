@@ -113,7 +113,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); }
 .result-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
 .result-panel::before { content: ''; display: block; height: 3px; background: var(--gradient); }
 .result-panel-body { padding: 1.4rem; }
-.result-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
+.result-eyebrow { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
 .result-amount { font-size: 40px; font-weight: 900; letter-spacing: -0.04em; line-height: 1; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .result-sublabel { font-size: 12px; color: var(--muted); font-weight: 400; margin-top: 0.2rem; margin-bottom: 1.25rem; }
 .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 1.25rem; }
@@ -138,15 +138,15 @@ hr.result-sep { border: none; border-top: 1px solid var(--border); margin: 0 0 1
 .impact-layer { padding: 0.8rem 0; border-bottom: 1px solid var(--border); }
 .impact-layer:last-child { border-bottom: none; padding-bottom: 0.2rem; }
 .impact-layer-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
-.impact-layer-val { font-size: 18px; font-weight: 900; letter-spacing: -0.03em; line-height: 1.2; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 2px; word-break: break-word; }
+.impact-layer-val { font-size: 18px; font-weight: 900; letter-spacing: -0.03em; line-height: 1.2; color: var(--text); margin-bottom: 2px; word-break: break-word; }
 .impact-layer-desc { font-size: 11px; color: var(--muted); font-weight: 400; line-height: 1.45; }
-.impact-layer--total .impact-layer-label { color: var(--purple); }
-.impact-layer--total .impact-layer-val { font-size: 22px; }
+.impact-layer--total .impact-layer-label { color: var(--mid); }
+.impact-layer--total .impact-layer-val { font-size: 22px; color: var(--mid); }
 .breakeven-note { font-size: 11.5px; font-weight: 600; color: var(--purple); background: rgba(83,16,160,0.06); border-left: 2.5px solid var(--purple); border-radius: 0 6px 6px 0; padding: 0.55rem 0.75rem; margin-top: 0.85rem; margin-bottom: 1.1rem; line-height: 1.5; }
 
 /* CHECKLIST */
 .checklist { display: flex; flex-direction: column; gap: 1.75rem; }
-.checklist-group-title { font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+.checklist-group-title { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
 .checklist-items { display: flex; flex-direction: column; }
 .checklist-item { display: flex; align-items: flex-start; gap: 10px; padding: 0.6rem 0; border-bottom: 1px solid var(--border); }
 .checklist-item:last-child { border-bottom: none; padding-bottom: 0; }
@@ -164,14 +164,14 @@ hr.result-sep { border: none; border-top: 1px solid var(--border); margin: 0 0 1
 .templates-list { display: flex; flex-direction: column; gap: 1.5rem; }
 .templates-footer { display: flex; align-items: center; justify-content: flex-end; padding-top: 1.25rem; border-top: 1px solid var(--border); margin-top: 0.25rem; }
 .template-use { font-size: 12px; color: var(--muted); font-weight: 400; margin-top: 5px; line-height: 1.5; }
-.template-use-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+.template-use-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
 .templates-guide-footer { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); font-weight: 400; line-height: 1.6; }
 .template-card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
 .template-card-head { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); background: var(--surface); gap: 1rem; flex-wrap: wrap; }
 .template-info { flex: 1; }
 .template-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
 .template-subject { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--mid); font-weight: 400; }
-.template-subject-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.template-subject-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
 .copy-btn { display: inline-flex; align-items: center; gap: 6px; font-family: inherit; font-size: 13px; font-weight: 700; color: var(--purple); background: #fff; border: 1.5px solid var(--border); padding: 7px 14px; border-radius: 12px; cursor: pointer; transition: border-color 0.15s, background 0.15s; white-space: nowrap; flex-shrink: 0; }
 .copy-btn:hover { border-color: var(--purple); }
 .copy-btn.copied { background: rgba(83,16,160,0.06); border-color: var(--purple); }
@@ -234,7 +234,7 @@ hr.result-sep { border: none; border-top: 1px solid var(--border); margin: 0 0 1
 .modal-bar { height: 3px; background: var(--gradient); }
 .modal-body { padding: 2rem 2rem 2.25rem; }
 .modal-logo { display: block; height: 22px; width: auto; margin-bottom: 1.6rem; }
-.modal-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.02em; color: var(--muted); margin-bottom: 0.5rem; }
+.modal-eyebrow { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
 .modal-title { font-size: 21px; font-weight: 900; color: var(--text); letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 0.4rem; }
 .modal-sub-head { font-size: 15px; font-weight: 500; color: var(--mid); letter-spacing: -0.01em; line-height: 1.4; margin-bottom: 1.25rem; }
 .modal-sub { font-size: 14px; color: var(--mid); font-weight: 400; line-height: 1.6; margin-bottom: 1.75rem; }
@@ -302,7 +302,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
     <div class="modal-body">
       <img class="modal-logo" src="https://cdn.prod.website-files.com/65aa019626783da5fc3fac12/661498b9f8513ceddf7325e6_rechargly-logo-no-padding.svg" alt="Rechargly">
       <div class="modal-title" id="modal-title">Free practical guide</div>
-      <form id="gate-form" novalidate>
+      <form id="gate-form" novalidate onsubmit="submitGateForm(); return false;">
         <div class="form-row">
           <div class="form-field-inline">
             <label class="form-label" for="gate-name">First name</label>
@@ -315,7 +315,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
             <div class="field-error" id="lastname-error">Please enter your last name.</div>
           </div>
         </div>
-        <button type="button" class="modal-submit" onclick="submitGateForm()">Get the resources</button>
+        <button type="submit" class="modal-submit">Get the resources</button>
       </form>
     </div>
   </div>
@@ -404,20 +404,8 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
                   <div>
                     <div class="field-header">
                       <div>
-                        <div class="field-label">Software subscriptions per client</div>
-                        <div class="field-hint">Spotlight, ApprovalMax, QuickBooks, Xero, Dext, Fathom...</div>
-                      </div>
-                      <span class="field-val" id="subs-out">3</span>
-                    </div>
-                    <input type="range" id="subs" min="1" max="8" step="1" value="3" oninput="calc()">
-                    <div class="tick-labels"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
-                  </div>
-
-                  <div>
-                    <div class="field-header">
-                      <div>
                         <div class="field-label">Average monthly cost per subscription</div>
-                        <div class="field-hint">Xero ~$35-65, Dext ~$55, ApprovalMax ~$60, Spotlight ~$55</div>
+                        <div class="field-hint">How much do you spend on average per client on subscriptions e.g. Xero, QBO, MYOB, Dext etc.</div>
                       </div>
                       <span class="field-val" id="cost-out">$50</span>
                     </div>
@@ -482,7 +470,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
                         <div class="impact-layer-desc">per year in billing leakage</div>
                       </div>
                     </div>
-                    <div class="breakeven-note">Rechargly pays for itself at just $3 to $4 per client per month.</div>
+                    <div class="breakeven-note">Did you know you can pass on the cost of Rechargly? Client pays $3 to $4 per month and it is free for your firm.</div>
                     <hr class="result-sep">
                     <p class="result-copy">Rechargly automates software cost recovery through Xero. No manual invoicing, no chasing clients.</p>
                     <a href="https://meetings.hubspot.com/alex3005/rechargly-demo" class="btn-demo" target="_blank" rel="noopener">Book a free demo &rarr;</a>
@@ -925,7 +913,7 @@ function updateSliderFill(el) {
 }
 function calc() {
   var clients  = parseInt(document.getElementById('clients').value);
-  var subs     = parseInt(document.getElementById('subs').value);
+  var subs     = 2;
   var cost     = parseInt(document.getElementById('cost').value);
   var recovPct = parseInt(document.getElementById('recovery').value);
   var hourly   = parseInt(document.getElementById('hourly-rate').value);
@@ -933,7 +921,6 @@ function calc() {
   var sym      = _curSym(cur);
 
   document.getElementById('clients-out').textContent  = clients;
-  document.getElementById('subs-out').textContent     = subs;
   document.getElementById('cost-out').textContent     = sym + cost;
   document.getElementById('recovery-out').textContent = recovPct + '%';
 
