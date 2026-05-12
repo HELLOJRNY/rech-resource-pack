@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Software Cost Recovery: Practical Guide | Rechargly</title>
 <style>
-/* FELLIX FONT — loaded directly from Rechargly's Webflow CDN */
+/* FELLIX FONT - loaded directly from Rechargly's Webflow CDN */
 @font-face {
   font-family: Fellix;
   src: url("https://cdn.prod.website-files.com/65aa019626783da5fc3fac12/66148008c2c73ed24a7866d1_Fellix%20Regular.ttf") format("truetype");
@@ -138,10 +138,10 @@ hr.result-sep { border: none; border-top: 1px solid var(--border); margin: 0 0 1
 .impact-layer { padding: 0.8rem 0; border-bottom: 1px solid var(--border); }
 .impact-layer:last-child { border-bottom: none; padding-bottom: 0.2rem; }
 .impact-layer-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
-.impact-layer-val { font-size: 24px; font-weight: 900; letter-spacing: -0.04em; line-height: 1.1; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 2px; }
+.impact-layer-val { font-size: 18px; font-weight: 900; letter-spacing: -0.03em; line-height: 1.2; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 2px; word-break: break-word; }
 .impact-layer-desc { font-size: 11px; color: var(--muted); font-weight: 400; line-height: 1.45; }
 .impact-layer--total .impact-layer-label { color: var(--purple); }
-.impact-layer--total .impact-layer-val { font-size: 30px; }
+.impact-layer--total .impact-layer-val { font-size: 22px; }
 
 /* CHECKLIST */
 .checklist { display: flex; flex-direction: column; gap: 1.75rem; }
@@ -271,7 +271,7 @@ hr.result-sep { border: none; border-top: 1px solid var(--border); margin: 0 0 1
 .demo-popup-dismiss { display: block; width: 100%; text-align: center; font-size: 12px; color: var(--muted); font-weight: 400; cursor: pointer; background: none; border: none; font-family: inherit; padding: 2px; transition: color 0.15s; }
 .demo-popup-dismiss:hover { color: var(--mid); }
 
-/* FINAL CTA — matches rechargly.webflow.io section_cta_book_demo exactly */
+/* FINAL CTA - matches rechargly.webflow.io section_cta_book_demo exactly */
 .cta-section { background: #ee35f51a; }
 .cta-inner { padding: 7rem 2rem; max-width: 64rem; margin: 0 auto; }
 .cta-card-border { padding: 2px 2px 5px 3px; background: linear-gradient(135deg, #5310a0, #ee35f5); border-radius: 1.25rem; box-shadow: 0 12px 16px -4px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.03); }
@@ -749,7 +749,7 @@ Your updated engagement letter will include this change. Please get in touch if 
                   Download all templates
                 </button>
               </div>
-              <p class="templates-guide-footer">A free resource from Rechargly — rechargly.com</p>
+              <p class="templates-guide-footer">A free resource from Rechargly. rechargly.com</p>
             </div>
           </div>
         </div>
@@ -909,6 +909,13 @@ function fmtCur(n) {
   var sym = (sel && sel.value === 'GBP') ? '£' : '$';
   return sym + Math.round(n).toLocaleString('en-AU');
 }
+function fmtRange(n) {
+  var sel = document.getElementById('currency');
+  var sym = (sel && sel.value === 'GBP') ? '£' : '$';
+  var lo = Math.round(n * 0.8);
+  var hi = Math.round(n * 1.2);
+  return sym + lo.toLocaleString('en-AU') + ' - ' + sym + hi.toLocaleString('en-AU');
+}
 function updateSliderFill(el) {
   var pct = ((parseFloat(el.value) - parseFloat(el.min)) / (parseFloat(el.max) - parseFloat(el.min))) * 100;
   el.style.background = 'linear-gradient(to right, #5310a0 ' + pct + '%, #d0d9df ' + pct + '%)';
@@ -938,9 +945,9 @@ function calc() {
 
   var totalLeakage   = unrecoveredAnn + adminTimeAnn;
 
-  document.getElementById('annual-out').textContent  = fmtCur(unrecoveredAnn);
-  document.getElementById('admin-out').textContent   = fmtCur(adminTimeAnn);
-  document.getElementById('leakage-out').textContent = fmtCur(totalLeakage);
+  document.getElementById('annual-out').textContent  = fmtRange(unrecoveredAnn);
+  document.getElementById('admin-out').textContent   = fmtRange(adminTimeAnn);
+  document.getElementById('leakage-out').textContent = fmtRange(totalLeakage);
 
   document.getElementById('annual-label').textContent = recovPct === 100
     ? "you're already recovering everything"
@@ -967,7 +974,7 @@ function makeGradImg(w, h) {
   return c.toDataURL('image/png');
 }
 
-/* Shared PDF library loader — loads html2canvas + jsPDF once, then calls all queued callbacks */
+/* Shared PDF library loader - loads html2canvas + jsPDF once, then calls all queued callbacks */
 var _pdfLibsReady = false;
 var _pdfLibsQueue = [];
 function _loadPdfLibs(cb) {
@@ -1299,6 +1306,10 @@ function submitGateForm() {
   overlay.style.display = 'none';
   document.body.style.overflow = '';
   gatePassed = true;
+  setTimeout(function() {
+    var acc1 = document.getElementById('acc-1');
+    if (acc1) acc1.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 300);
 }
 
 /* ---- WEBINAR SLIDE DECK ---- */
