@@ -304,7 +304,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
         </button>
       </div>
       <div class="demo-popup-headline" id="demo-popup-title">Seen your number? Now fix it permanently.</div>
-      <div class="demo-popup-sub">Rechargly automates software cost recovery through Xero. No spreadsheets, no manual invoicing.</div>
+      <div class="demo-popup-sub" id="demo-popup-sub">Rechargly automates software cost recovery through Xero. No spreadsheets, no manual invoicing.</div>
       <a href="https://meetings.hubspot.com/alex3005/rechargly-demo" class="demo-popup-cta" target="_blank" rel="noopener">Book a demo</a>
       <button class="demo-popup-dismiss" onclick="dismissDemoPopup()">No thanks</button>
     </div>
@@ -792,8 +792,15 @@ function toggleAccordion(id) {
       trigger.setAttribute('aria-expanded', opening ? 'true' : 'false');
       if (opening) {
         card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (n === 4 && !demoShown && gatePassed) {
+          clearTimeout(webinarTimer);
+          webinarTimer = setTimeout(function() { showDemoPopup('webinar'); }, 8000);
+        }
+      } else {
+        if (n === 4) { clearTimeout(webinarTimer); webinarTimer = null; }
       }
     } else {
+      if (n === 4) { clearTimeout(webinarTimer); webinarTimer = null; }
       card.classList.remove('is-open');
       body.classList.remove('is-open');
       trigger.setAttribute('aria-expanded', 'false');
@@ -1089,34 +1096,44 @@ function downloadTemplates() {
 }
 
 /* DEMO POPUP */
-var gatePassed = false;
-var demoShown  = false;
-var demoTimer  = null;
+var gatePassed   = false;
+var demoShown    = false;
+var demoTimer    = null;
+var webinarTimer = null;
 
 document.querySelectorAll('input[type=range]').forEach(function(el) {
   el.addEventListener('input', function() {
     if (demoShown || !gatePassed) return;
     clearTimeout(demoTimer);
-    demoTimer = setTimeout(showDemoPopup, 5000);
+    demoTimer = setTimeout(function() { showDemoPopup('calc'); }, 5000);
   });
 });
 
-function showDemoPopup() {
+function showDemoPopup(context) {
   if (demoShown) return;
   demoShown = true;
-  var amountEl = document.getElementById('annual-out');
-  var amount   = amountEl ? amountEl.textContent.trim() : null;
   var headline = document.getElementById('demo-popup-title');
-  if (headline) {
-    headline.textContent = (amount && amount !== '$0')
-      ? 'Your firm is absorbing ' + amount + ' per year. Ready to fix it?'
-      : 'Ready to fix your software costs permanently?';
+  var sub      = document.getElementById('demo-popup-sub');
+  if (context === 'webinar') {
+    if (headline) headline.textContent = 'Enjoyed the session? See how Rechargly works for your firm.';
+    if (sub) sub.textContent = 'Book a personalised demo and see exactly how Rechargly can automate software cost recovery for your practice.';
+  } else {
+    var amountEl = document.getElementById('annual-out');
+    var amount   = amountEl ? amountEl.textContent.trim() : null;
+    if (headline) {
+      headline.textContent = (amount && amount !== '$0')
+        ? 'Your firm is absorbing ' + amount + ' per year. Ready to fix it?'
+        : 'Ready to fix your software costs permanently?';
+    }
+    if (sub) sub.textContent = 'Rechargly automates software cost recovery through Xero. No spreadsheets, no manual invoicing.';
   }
   var overlay = document.getElementById('demo-popup-overlay');
   if (overlay) overlay.classList.add('show');
 }
 
 function dismissDemoPopup() {
+  clearTimeout(webinarTimer);
+  webinarTimer = null;
   var overlay = document.getElementById('demo-popup-overlay');
   if (!overlay) return;
   overlay.classList.remove('show');
