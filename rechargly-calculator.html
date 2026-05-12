@@ -125,6 +125,24 @@ hr.result-sep { border: none; border-top: 1px solid var(--border); margin: 0 0 1
 .btn-demo { display: block; width: 100%; background: var(--gradient); color: #fff; font-size: 14px; font-weight: 700; text-align: center; padding: 13px; border-radius: 12px; text-decoration: none; transition: opacity 0.15s, transform 0.1s; letter-spacing: -0.01em; }
 .btn-demo:hover { opacity: 0.82; transform: translateY(-1px); }
 
+/* CALC DROPDOWNS */
+.calc-dropdowns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.select-field { flex: 1; min-width: 120px; }
+.select-field .field-label { margin-bottom: 0.4rem; }
+.select-field select { font-family: Fellix, Trebuchet MS, sans-serif; font-size: 13.5px; font-weight: 600; color: var(--text); width: 100%; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 32px 8px 12px; cursor: pointer; outline: none; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%239ca9b0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; transition: border-color 0.15s; }
+.select-field select:focus { border-color: var(--purple); }
+.select-field select:hover { border-color: var(--mid); }
+
+/* IMPACT LAYERS */
+.impact-layers { display: flex; flex-direction: column; gap: 0; margin-bottom: 1.1rem; }
+.impact-layer { padding: 0.8rem 0; border-bottom: 1px solid var(--border); }
+.impact-layer:last-child { border-bottom: none; padding-bottom: 0.2rem; }
+.impact-layer-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+.impact-layer-val { font-size: 24px; font-weight: 900; letter-spacing: -0.04em; line-height: 1.1; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 2px; }
+.impact-layer-desc { font-size: 11px; color: var(--muted); font-weight: 400; line-height: 1.45; }
+.impact-layer--total .impact-layer-label { color: var(--purple); }
+.impact-layer--total .impact-layer-val { font-size: 30px; }
+
 /* CHECKLIST */
 .checklist { display: flex; flex-direction: column; gap: 1.75rem; }
 .checklist-group-title { font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
@@ -378,15 +396,15 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
                       </div>
                       <span class="field-val" id="clients-out">50</span>
                     </div>
-                    <input type="range" id="clients" min="5" max="300" step="5" value="50" oninput="calc()">
-                    <div class="tick-labels"><span>5</span><span>75</span><span>150</span><span>225</span><span>300</span></div>
+                    <input type="range" id="clients" min="5" max="2000" step="5" value="50" oninput="calc()">
+                    <div class="tick-labels"><span>5</span><span>500</span><span>1000</span><span>1500</span><span>2000</span></div>
                   </div>
 
                   <div>
                     <div class="field-header">
                       <div>
                         <div class="field-label">Software subscriptions per client</div>
-                        <div class="field-hint">Xero, Dext, Hubdoc, Ignition, Fathom, AutoEntry...</div>
+                        <div class="field-hint">Spotlight, ApprovalMax, QuickBooks, Xero, Dext, Fathom...</div>
                       </div>
                       <span class="field-val" id="subs-out">3</span>
                     </div>
@@ -398,12 +416,12 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
                     <div class="field-header">
                       <div>
                         <div class="field-label">Average monthly cost per subscription</div>
-                        <div class="field-hint">AUD. Xero ~$35-65, Dext ~$55, Hubdoc ~$30</div>
+                        <div class="field-hint">Xero ~$35–65, Dext ~$55, ApprovalMax ~$60, Spotlight ~$55</div>
                       </div>
-                      <span class="field-val" id="cost-out">$45</span>
+                      <span class="field-val" id="cost-out">$50</span>
                     </div>
-                    <input type="range" id="cost" min="10" max="150" step="5" value="45" oninput="calc()">
-                    <div class="tick-labels"><span>$10</span><span>$45</span><span>$80</span><span>$115</span><span>$150</span></div>
+                    <input type="range" id="cost" min="25" max="150" step="5" value="50" oninput="calc()">
+                    <div class="tick-labels"><span>$25</span><span>$50</span><span>$75</span><span>$100</span><span>$125</span><span>$150</span></div>
                   </div>
 
                   <hr class="sep">
@@ -411,7 +429,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
                   <div>
                     <div class="field-header">
                       <div>
-                        <div class="field-label">% of costs currently recovered</div>
+                        <div class="field-label">Estimated percentage of cost recovered</div>
                         <div class="field-hint">Passed on via invoices, bundled into fees, or charged directly</div>
                       </div>
                       <span class="field-val" id="recovery-out">10%</span>
@@ -419,29 +437,48 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
                     <input type="range" id="recovery" min="0" max="100" step="5" value="10" oninput="calc()">
                     <div class="tick-labels"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
                   </div>
+
+                  <hr class="sep">
+
+                  <div class="calc-dropdowns">
+                    <div class="select-field">
+                      <div class="field-label">Your hourly rate</div>
+                      <select id="hourly-rate" onchange="calc()">
+                        <option value="30">$30 / hr</option>
+                        <option value="50" selected>$50 / hr</option>
+                        <option value="75">$75 / hr</option>
+                      </select>
+                    </div>
+                    <div class="select-field">
+                      <div class="field-label">Currency</div>
+                      <select id="currency" onchange="calc()">
+                        <option value="AUD" selected>AUD</option>
+                        <option value="NZD">NZD</option>
+                        <option value="GBP">GBP</option>
+                        <option value="USD">USD</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="result-panel">
                   <div class="result-panel-body">
-                    <div class="result-eyebrow">Your firm is absorbing</div>
-                    <div class="result-amount" id="annual-out">$97,200</div>
-                    <div class="result-sublabel" id="annual-label">per year in unrecovered software costs</div>
-                    <div class="stats">
-                      <div class="stat">
-                        <span class="stat-val" id="stat-month">$8,100</span>
-                        <span class="stat-lbl">per month</span>
+                    <div class="result-eyebrow">Your firm's annual billing leakage</div>
+                    <div class="impact-layers">
+                      <div class="impact-layer">
+                        <div class="impact-layer-label">Unrecovered costs</div>
+                        <div class="impact-layer-val" id="annual-out">$0</div>
+                        <div class="impact-layer-desc" id="annual-label">Subscription costs absorbed by your firm per year</div>
                       </div>
-                      <div class="stat">
-                        <span class="stat-val" id="stat-per-client">$1,944</span>
-                        <span class="stat-lbl">per client / year</span>
+                      <div class="impact-layer">
+                        <div class="impact-layer-label">Admin time</div>
+                        <div class="impact-layer-val" id="admin-out">$0</div>
+                        <div class="impact-layer-desc">Staff time managing and reconciling subscriptions</div>
                       </div>
-                      <div class="stat">
-                        <span class="stat-val" id="stat-total">$108,000</span>
-                        <span class="stat-lbl">total software spend</span>
-                      </div>
-                      <div class="stat">
-                        <span class="stat-val" id="stat-fte">0.8 FTEs</span>
-                        <span class="stat-lbl">salary equivalent</span>
+                      <div class="impact-layer impact-layer--total">
+                        <div class="impact-layer-label">Total billing leakage</div>
+                        <div class="impact-layer-val" id="leakage-out">$0</div>
+                        <div class="impact-layer-desc">Combined annual impact on your firm</div>
                       </div>
                     </div>
                     <hr class="result-sep">
@@ -867,6 +904,11 @@ function toggleAccordion(id) {
 function fmtAUD(n) {
   return '$' + Math.round(n).toLocaleString('en-AU');
 }
+function fmtCur(n) {
+  var sel = document.getElementById('currency');
+  var sym = (sel && sel.value === 'GBP') ? '£' : '$';
+  return sym + Math.round(n).toLocaleString('en-AU');
+}
 function updateSliderFill(el) {
   var pct = ((parseFloat(el.value) - parseFloat(el.min)) / (parseFloat(el.max) - parseFloat(el.min))) * 100;
   el.style.background = 'linear-gradient(to right, #5310a0 ' + pct + '%, #d0d9df ' + pct + '%)';
@@ -876,29 +918,33 @@ function calc() {
   var subs     = parseInt(document.getElementById('subs').value);
   var cost     = parseInt(document.getElementById('cost').value);
   var recovPct = parseInt(document.getElementById('recovery').value);
+  var hourly   = parseInt(document.getElementById('hourly-rate').value);
+  var sel      = document.getElementById('currency');
+  var sym      = (sel && sel.value === 'GBP') ? '£' : '$';
 
   document.getElementById('clients-out').textContent  = clients;
   document.getElementById('subs-out').textContent     = subs;
-  document.getElementById('cost-out').textContent     = '$' + cost;
+  document.getElementById('cost-out').textContent     = sym + cost;
   document.getElementById('recovery-out').textContent = recovPct + '%';
 
   document.querySelectorAll('input[type=range]').forEach(updateSliderFill);
 
   var totalMonthly   = clients * subs * cost;
-  var absorbedMo     = totalMonthly * (1 - recovPct / 100);
-  var absorbedAnnual = absorbedMo * 12;
-  var perClient      = clients > 0 ? absorbedAnnual / clients : 0;
-  var fteEquiv       = (absorbedAnnual / 120000).toFixed(1);
+  var unrecoveredMo  = totalMonthly * (1 - recovPct / 100);
+  var unrecoveredAnn = unrecoveredMo * 12;
 
-  document.getElementById('annual-out').textContent = fmtAUD(absorbedAnnual);
+  // 10 min per client per month for subscription admin (reconciling, chasing, billing)
+  var adminTimeAnn   = (clients * 10 / 60) * hourly * 12;
+
+  var totalLeakage   = unrecoveredAnn + adminTimeAnn;
+
+  document.getElementById('annual-out').textContent  = fmtCur(unrecoveredAnn);
+  document.getElementById('admin-out').textContent   = fmtCur(adminTimeAnn);
+  document.getElementById('leakage-out').textContent = fmtCur(totalLeakage);
+
   document.getElementById('annual-label').textContent = recovPct === 100
     ? "you're already recovering everything"
-    : 'per year in unrecovered software costs';
-
-  document.getElementById('stat-month').textContent      = fmtAUD(absorbedMo);
-  document.getElementById('stat-per-client').textContent = fmtAUD(perClient);
-  document.getElementById('stat-total').textContent      = fmtAUD(totalMonthly * 12);
-  document.getElementById('stat-fte').textContent        = fteEquiv + ' FTEs';
+    : 'Subscription costs absorbed by your firm per year';
 }
 calc();
 
