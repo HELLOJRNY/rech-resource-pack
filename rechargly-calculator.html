@@ -985,20 +985,34 @@ function updateProgress() {
   document.querySelector('#checklist-progress span').textContent = checked;
 }
 
-/* CHECKLIST PDF */
+/* PDF GENERATION */
+
+/* Rechargly logo SVG — inline to avoid CORS issues with html2canvas */
+var _LOGO_SVG_STR = '<svg width="766" height="155" viewBox="0 0 766 155" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M202.583 84.0351C202.583 87.3637 202.278 90.9446 201.67 94.7776H153.284C155.212 100.325 159.878 103.099 167.283 103.099C173.065 103.099 176.919 101.435 178.847 98.1063L200.3 111.118C194.823 121.104 183.563 126.097 166.522 126.097C155.364 126.097 145.88 122.315 138.069 114.75C130.36 107.185 126.505 97.9046 126.505 86.9098C126.505 76.016 130.309 66.8369 137.917 59.3726C145.525 52.0091 154.907 48.3274 166.065 48.3274C176.311 48.3274 184.933 51.7569 191.932 58.616C199.032 65.576 202.583 74.049 202.583 84.0351ZM175.195 77.6803C173.978 72.7377 170.427 70.2664 164.544 70.2664C158.559 70.2664 154.705 72.7377 152.98 77.6803H175.195Z" fill="url(#paint0_linear_9150_56300)"/><path d="M289.912 103.402C287.071 110.362 282.405 115.859 275.913 119.894C269.421 124.03 261.966 126.097 253.546 126.097C242.185 126.097 232.701 122.416 225.093 115.052C217.587 107.689 213.834 98.4593 213.834 87.3637C213.834 76.1673 217.587 66.8369 225.093 59.3726C232.701 52.0091 242.185 48.3274 253.546 48.3274C269.168 48.3274 280.529 54.5813 287.629 67.089L264.349 80.2525C261.712 76.4194 258.111 74.5029 253.546 74.5029C249.692 74.5029 246.547 75.7134 244.113 78.1342C241.78 80.5551 240.613 83.6316 240.613 87.3637C240.613 90.995 241.78 93.9707 244.113 96.2907C246.547 98.7115 249.692 99.9219 253.546 99.9219C259.43 99.9219 263.386 97.5011 265.415 92.6594L289.912 103.402Z" fill="url(#paint1_linear_9150_56300)"/><path d="M347.142 48.3274C356.779 48.3274 364.285 51.3535 369.661 57.4056C374.936 63.4578 377.573 71.9308 377.573 82.8246V124.584H350.185V86.4559C350.185 82.8246 349.222 79.8994 347.294 77.6803C345.468 75.5621 342.983 74.5029 339.839 74.5029C333.144 74.5029 329.796 78.4873 329.796 86.4559V124.584H302.408V18.6719H329.796V57.2543C334.26 51.303 340.042 48.3274 347.142 48.3274Z" fill="url(#paint2_linear_9150_56300)"/><path d="M444.873 49.8404H472.261V124.584H444.873V117.322C439.903 123.172 433.259 126.097 424.941 126.097C415.609 126.097 407.646 122.264 401.053 114.598C394.561 107.033 391.315 97.9046 391.315 87.2124C391.315 76.5203 394.561 67.3917 401.053 59.8265C407.646 52.1604 415.609 48.3274 424.941 48.3274C433.259 48.3274 439.903 51.2526 444.873 57.103V49.8404ZM431.484 100.073C435.135 100.073 438.28 98.8124 440.917 96.2907C443.555 93.8698 444.873 90.8437 444.873 87.2124C444.873 83.5811 443.555 80.5046 440.917 77.9829C438.28 75.562 435.135 74.3516 431.484 74.3516C427.832 74.3516 424.687 75.562 422.05 77.9829C419.413 80.5046 418.094 83.5811 418.094 87.2124C418.094 90.8437 419.413 93.8698 422.05 96.2907C424.687 98.8124 427.832 100.073 431.484 100.073Z" fill="url(#paint3_linear_9150_56300)"/><path d="M532.484 48.3274C536.744 48.3274 540.244 48.9326 542.982 50.143L539.939 76.6212C536.896 75.3099 533.447 74.6542 529.593 74.6542C526.043 74.6542 523.05 75.8647 520.616 78.2855C517.37 81.4125 515.747 86.002 515.747 92.0541V124.584H488.359V49.8404H515.747V57.4056C519.094 51.3535 524.673 48.3274 532.484 48.3274Z" fill="url(#paint4_linear_9150_56300)"/><path d="M600.809 49.6891H628.197V120.802C628.197 131.191 624.342 139.513 616.633 145.767C609.228 151.718 599.845 154.694 588.484 154.694C572.761 154.694 561.045 151.012 553.336 143.649L564.9 125.341C572.102 129.678 579.659 131.847 587.571 131.847C590.918 131.847 593.911 130.939 596.548 129.124C599.388 127.207 600.809 124.786 600.809 121.861V114.598C595.94 120.247 589.296 123.071 580.876 123.071C571.544 123.071 563.581 119.39 556.988 112.026C550.496 104.764 547.25 95.988 547.25 85.6994C547.25 75.4107 550.496 66.5847 556.988 59.2213C563.48 51.9587 571.443 48.3274 580.876 48.3274C589.296 48.3274 595.94 51.1517 600.809 56.8004V49.6891ZM587.419 97.955C591.071 97.955 594.215 96.7446 596.853 94.3237C599.49 92.0037 600.809 89.1289 600.809 85.6994C600.809 82.169 599.49 79.1933 596.853 76.7725C594.215 74.4525 591.071 73.2925 587.419 73.2925C583.767 73.2925 580.623 74.4525 577.985 76.7725C575.348 79.1933 574.029 82.169 574.029 85.6994C574.029 89.1289 575.348 92.0037 577.985 94.3237C580.623 96.7446 583.767 97.955 587.419 97.955Z" fill="url(#paint5_linear_9150_56300)"/><path d="M671.682 18.6719V124.584H644.294V18.6719H671.682Z" fill="url(#paint6_linear_9150_56300)"/><path d="M736.327 49.8404H765.845L725.067 147.28H695.549L710.004 115.809L682.464 49.8404H711.83L724.154 83.8838L736.327 49.8404Z" fill="url(#paint7_linear_9150_56300)"/><path fill-rule="evenodd" clip-rule="evenodd" d="M47.0108 0.13317C45.5378 0.286525 43.7644 0.585219 41.5046 1.06078C38.6405 1.66364 38.4079 1.72376 38.1894 1.91839C38.079 2.01657 37.72 2.12651 37.3916 2.16258C36.695 2.23899 34.9093 2.84773 33.6766 3.42909C33.2022 3.65271 32.2768 4.02862 31.6201 4.26439C30.1712 4.7847 28.15 5.78164 27.0418 6.52277C26.5919 6.8236 25.6794 7.34471 25.0137 7.68067C23.6374 8.37545 22.2699 9.29477 21.2048 10.2412C20.8034 10.5979 20.2787 10.9695 20.0388 11.0673C19.7988 11.165 19.5424 11.3577 19.4692 11.4957C19.3958 11.6336 19.0847 11.9034 18.7777 12.0952C18.4707 12.2871 17.7301 12.9474 17.1318 13.5627C16.5336 14.1779 15.98 14.6814 15.9016 14.6814C15.6794 14.6814 14.6056 15.7287 14.2755 16.2672C14.1122 16.5338 13.4591 17.2657 12.8245 17.8937C12.1898 18.5217 11.6305 19.1958 11.5817 19.3917C11.5328 19.5877 11.3795 19.7842 11.241 19.8286C11.1025 19.8728 10.9503 20.065 10.9027 20.2556C10.8552 20.4462 10.6229 20.7733 10.3864 20.9822C10.15 21.1912 9.85968 21.5678 9.74133 21.819C9.62298 22.0701 9.11934 22.821 8.62219 23.4876C7.36161 25.1777 6.21951 27.1544 5.12451 29.5413C4.61012 30.6625 4.11682 31.7602 4.02806 31.9806C3.93943 32.201 3.68601 32.7721 3.46497 33.2496C3.24406 33.7272 2.99051 34.4485 2.90161 34.8526C2.81272 35.2567 2.5597 35.9379 2.33959 36.3664C2.0737 36.8836 1.91541 37.4223 1.86818 37.9694C1.82917 38.4225 1.68614 39.0162 1.55041 39.2884C1.41468 39.5607 1.24857 40.1748 1.18117 40.653C1.1139 41.1313 1.02766 41.5735 0.989581 41.6356C0.95137 41.6979 0.79189 42.3762 0.635329 43.1431C0.178649 45.3781 -0.13434 51.6264 0.193774 51.9567C0.386424 52.1507 1.14906 51.7652 1.95336 51.0671C2.27457 50.7881 2.81192 50.4312 3.14747 50.2737C3.48301 50.1164 4.0262 49.7809 4.35458 49.5286C4.68296 49.2762 5.75766 48.5061 6.7428 47.8174C7.72794 47.1286 9.20359 46.0657 10.0219 45.4555C10.8403 44.8451 11.8553 44.1697 12.2775 43.9548C12.6997 43.7397 13.3229 43.3169 13.6624 43.0153C14.002 42.7137 14.4019 42.4669 14.5509 42.4669C14.7001 42.4669 15.2283 42.7767 15.7247 43.1553C16.2212 43.5339 16.8304 43.9291 17.0785 44.0337C17.3266 44.1383 17.8938 44.5217 18.3389 44.8857C18.7841 45.2499 19.4746 45.7041 19.8735 45.8951C20.2724 46.0861 20.9889 46.5579 21.4656 46.9435C22.4585 47.7462 24.812 49.3237 26.0937 50.0454C26.5731 50.3153 27.1382 50.7343 27.3494 50.9766C27.5606 51.2188 27.7988 51.4171 27.8785 51.4171C27.9583 51.4171 28.2528 51.5771 28.5332 51.7727C29.1273 52.1872 29.3493 52.0802 29.3307 51.3881C29.3142 50.7763 29.6419 48.9643 30.1039 47.1122C30.8059 44.2977 31.1386 43.4043 31.8829 42.3333C32.2659 41.7823 33.0287 40.6101 33.5781 39.7284C35.4802 36.6758 39.1078 33.6017 43.3377 31.4583C44.5342 30.852 47.2471 30.1398 49.4444 29.855C52.7724 29.4238 57.6057 29.6923 59.1485 30.3943C59.5485 30.5762 60.1456 30.7613 60.4753 30.8054C60.805 30.8496 61.2171 30.9969 61.3912 31.1326C61.5652 31.2684 61.8143 31.3794 61.9448 31.3794C62.2025 31.3794 64.5426 32.6652 66.2794 33.7612C66.8764 34.1378 67.7071 34.808 68.1255 35.2504C68.5439 35.6929 68.9882 36.0549 69.1128 36.0549C69.4771 36.0549 72.9033 40.4606 73.5083 41.7071C73.7917 42.2909 74.17 42.9619 74.349 43.198C74.5278 43.4343 74.6743 43.7149 74.6743 43.8216C74.6743 43.9283 74.9142 44.7342 75.2073 45.6124C76.734 50.1869 76.857 55.5412 75.5477 60.434C75.1343 61.9792 74.416 63.974 74.2729 63.974C74.1311 63.974 73.1607 65.7615 72.9631 66.3866C72.8049 66.8873 69.5881 70.5123 68.6235 71.2768C67.1944 72.4095 64.0558 74.2057 60.7324 75.793C59.965 76.1594 59.0075 76.7667 58.3163 77.3249C57.6866 77.8336 56.9588 78.3514 56.699 78.4755C56.4393 78.5996 56.0983 78.8892 55.9414 79.1188C55.7844 79.3486 55.2596 79.9573 54.775 80.4716C53.5403 81.7822 52.7345 82.9765 51.7124 85.0113C50.1537 88.1142 50.0279 88.7526 49.9068 94.17C49.801 98.8971 50.1108 102.678 50.9324 106.688C51.0791 107.404 51.2562 108.393 51.326 108.885C51.3957 109.378 51.5667 110.039 51.7059 110.355C51.8452 110.67 52.0644 111.38 52.1931 111.931C52.3218 112.482 52.7424 113.872 53.1278 115.021C55.2277 121.28 57.9249 125.758 62.7981 131.078C64.4375 132.868 65.9114 134.171 67.4974 135.233C68.0221 135.584 68.5408 136.009 68.6503 136.177C68.7597 136.345 69.0405 136.56 69.2741 136.654C69.5077 136.748 69.9305 137.032 70.2136 137.284C70.4968 137.537 71.064 137.895 71.4741 138.081C71.8842 138.267 72.6129 138.678 73.0933 138.996C74.382 139.848 78.3305 141.684 80.5414 142.458C81.9168 142.941 83.973 143.494 85.0055 143.659C85.324 143.711 85.8315 143.86 86.1332 143.992C86.4349 144.124 86.9504 144.271 87.2788 144.319C87.6072 144.366 88.5027 144.55 89.269 144.726C91.1649 145.162 93.1407 145.44 95.401 145.588C96.4433 145.656 98.0722 145.81 99.0208 145.93C99.9695 146.05 101.764 146.159 103.009 146.172L105.273 146.195L105.779 145.809C106.092 145.569 106.413 145.139 106.623 144.677C106.809 144.268 107.168 143.66 107.42 143.327C107.673 142.994 108.006 142.454 108.16 142.126C108.315 141.798 108.552 141.417 108.687 141.278C108.822 141.139 109.054 140.746 109.204 140.404C109.353 140.062 109.67 139.543 109.908 139.249C110.429 138.604 111.498 136.806 111.852 135.976C111.993 135.645 112.336 135.074 112.613 134.707C113.424 133.633 113.735 133 113.639 132.618C113.593 132.431 113.166 131.692 112.69 130.976C112.214 130.259 111.824 129.63 111.824 129.577C111.824 129.342 111.285 128.387 111.116 128.321C111.013 128.282 110.568 127.557 110.127 126.712C109.686 125.866 108.955 124.584 108.502 123.862C107.483 122.237 107.478 122.229 107.388 121.793C107.347 121.596 107.134 121.255 106.915 121.035C106.696 120.815 106.517 120.567 106.517 120.485C106.517 120.403 106.401 120.106 106.259 119.825C105.947 119.211 105.691 119.148 103.503 119.146C102.56 119.145 101.272 119.023 99.9871 118.813C98.8719 118.631 97.3027 118.394 96.5 118.287C95.3918 118.138 94.5514 117.912 93.0093 117.349C91.8923 116.94 90.9203 116.606 90.8496 116.606C90.7787 116.606 90.237 116.272 89.6455 115.865C89.054 115.457 88.2659 114.968 87.8943 114.778C87.5225 114.589 86.8375 114.036 86.3718 113.549C84.9328 112.046 83.5638 110.438 83.5638 110.249C83.5638 110.151 83.3909 109.872 83.1797 109.629C82.9684 109.387 82.2528 107.957 81.5895 106.452C80.4579 103.884 80.3462 103.547 79.7819 101.001L79.1803 98.2867L79.4367 97.9285C79.8834 97.3044 80.55 96.7587 81.5073 96.2333C83.3484 95.2229 85.6191 93.5548 87.1461 92.0909C87.6934 91.5662 88.5065 90.8587 88.9531 90.5187C89.8327 89.8491 93.4192 86.1252 94.4036 84.8593C94.7377 84.4298 95.2229 83.7478 95.4819 83.3437C95.7409 82.9396 96.0908 82.4994 96.2595 82.3654C96.4283 82.2316 96.5663 82.0341 96.5663 81.9267C96.5663 81.8192 97.1657 80.8215 97.8983 79.7094C99.0991 77.8862 101.343 73.6638 101.343 73.2267C101.343 73.1308 101.616 72.5044 101.95 71.8346C102.604 70.5239 103.731 67.2843 103.731 66.7155C103.731 66.5244 103.85 66.1324 103.996 65.8447C104.142 65.5569 104.315 64.9433 104.382 64.4808C104.448 64.0183 104.569 63.4676 104.65 63.2568C104.731 63.046 104.857 62.4448 104.93 61.9209C105.002 61.397 105.175 60.4874 105.314 59.8997C105.686 58.326 105.911 54.0667 105.813 50.481C105.694 46.166 105.162 42.3936 104.256 39.455C104.03 38.7238 103.787 37.7948 103.715 37.3907C103.643 36.9866 103.405 36.1451 103.186 35.5205C102.967 34.896 102.65 33.9943 102.482 33.5168C102.194 32.695 101.689 31.5845 101.269 30.8451C101.164 30.6614 100.975 30.2707 100.849 29.9768C100.177 28.4099 99.1578 26.4873 98.3763 25.3123C97.8916 24.5837 97.495 23.8788 97.495 23.7459C97.495 23.6129 97.3458 23.4057 97.1633 23.2853C96.9809 23.1649 96.8316 22.9786 96.8316 22.8712C96.8316 22.7638 96.6398 22.4851 96.4055 22.252C96.171 22.0189 95.5074 21.1669 94.9308 20.3587C93.5508 18.4247 91.8749 16.4996 90.4714 15.2365C89.8465 14.6741 89.0666 13.938 88.7382 13.6007C87.1604 11.9806 84.3797 9.85743 81.9053 8.38386C80.9566 7.81893 79.7601 7.08102 79.2465 6.74412C78.7328 6.40722 77.9588 6.00646 77.5265 5.85351C77.0942 5.70042 76.5578 5.41509 76.3345 5.21912C76.1112 5.02329 75.5716 4.74984 75.1355 4.61171C74.6994 4.47345 73.7456 4.10009 73.0158 3.78202C69.1538 2.09846 63.6211 0.683403 58.9829 0.193016C56.8559 -0.0318065 48.975 -0.0712138 47.0108 0.13317ZM14.1919 65.7763C13.9601 66.0328 13.4878 66.3872 13.1423 66.5638C12.7969 66.7405 12.0068 67.2515 11.3866 67.6994C10.7663 68.1471 10.1954 68.5141 10.1179 68.5148C9.85809 68.5168 8.85332 69.0607 8.78671 69.2353C8.75062 69.3303 8.23105 69.658 7.63241 69.9637C7.03363 70.2694 6.12584 70.8487 5.61503 71.251C5.10421 71.6533 4.43127 72.1026 4.1196 72.2494C3.80794 72.3962 3.51791 72.608 3.47518 72.7203C3.43246 72.8323 3.32552 72.9241 3.23756 72.9241C2.94938 72.9241 1.95495 73.4666 1.87919 73.6651C1.83859 73.7718 1.69663 73.8592 1.56381 73.8592C1.43087 73.8592 1.21275 73.9993 1.07887 74.1707C0.945001 74.342 0.678715 74.5218 0.486861 74.5703L0.138314 74.6583L0.0399995 77.5631C-0.068399 80.7632 0.064147 121.716 0.192315 124.659C0.270728 126.458 0.278821 126.498 0.555589 126.416C1.1204 126.248 3.55731 125.036 4.18037 124.612C4.86327 124.148 6.58942 122.795 6.80914 122.552C6.88211 122.472 7.21646 122.302 7.552 122.174C7.88768 122.047 8.39518 121.747 8.67977 121.509C8.9645 121.27 9.46112 120.903 9.78353 120.694C10.1059 120.484 10.6775 120.061 11.0535 119.752C11.4297 119.444 12.3969 118.852 13.2031 118.437L14.6686 117.682L14.9181 117.959C15.0552 118.112 15.4363 118.394 15.7648 118.587C16.0932 118.779 16.4708 119.073 16.6039 119.241C16.7368 119.408 16.9605 119.545 17.101 119.545C17.2414 119.545 17.9088 119.955 18.584 120.457C20.5401 121.911 22.5873 123.294 24.5881 124.514C27.2089 126.112 27.9617 126.491 28.5167 126.491L28.9955 126.491L29.0803 123.586C29.2231 118.692 29.3408 85.0704 29.2344 79.5646L29.1343 74.383L28.6244 74.121C28.3441 73.977 28.0509 73.8592 27.9729 73.8592C27.895 73.8592 27.1015 73.3326 26.2097 72.6889C25.3178 72.0453 24.0806 71.2208 23.4603 70.8566C22.84 70.4925 21.7952 69.7973 21.1384 69.3117C20.4817 68.8261 19.8546 68.396 19.745 68.3557C19.6355 68.3155 18.8038 67.7939 17.8971 67.197C16.9904 66.5998 16.1808 66.1113 16.098 66.1113C16.0152 66.1113 15.8151 65.931 15.6532 65.7106C15.2401 65.1479 14.7395 65.1704 14.1919 65.7763Z" fill="#2B068A"/><defs><linearGradient id="paint0_linear_9150_56300" x1="132.931" y1="6.63793" x2="706.278" y2="305.994" gradientUnits="userSpaceOnUse"><stop stop-color="#200384"/><stop offset="1" stop-color="#EE35F5"/></linearGradient><linearGradient id="paint1_linear_9150_56300" x1="132.931" y1="6.63793" x2="706.278" y2="305.994" gradientUnits="userSpaceOnUse"><stop stop-color="#200384"/><stop offset="1" stop-color="#EE35F5"/></linearGradient><linearGradient id="paint2_linear_9150_56300" x1="132.931" y1="6.63793" x2="706.278" y2="305.994" gradientUnits="userSpaceOnUse"><stop stop-color="#200384"/><stop offset="1" stop-color="#EE35F5"/></linearGradient><linearGradient id="paint3_linear_9150_56300" x1="132.931" y1="6.63793" x2="706.278" y2="305.994" gradientUnits="userSpaceOnUse"><stop stop-color="#200384"/><stop offset="1" stop-color="#EE35F5"/></linearGradient><linearGradient id="paint4_linear_9150_56300" x1="132.931" y1="6.63793" x2="706.278" y2="305.994" gradientUnits="userSpaceOnUse"><stop stop-color="#200384"/><stop offset="1" stop-color="#EE35F5"/></linearGradient><linearGradient id="paint5_linear_9150_56300" x1="132.931" y1="6.63793" x2="706.278" y2="305.994" gradientUnits="userSpaceOnUse"><stop stop-color="#200384"/><stop offset="1" stop-color="#EE35F5"/></linearGradient><linearGradient id="paint6_linear_9150_56300" x1="132.931" y1="6.63793" x2="706.278" y2="305.994" gradientUnits="userSpaceOnUse"><stop stop-color="#200384"/><stop offset="1" stop-color="#EE35F5"/></linearGradient><linearGradient id="paint7_linear_9150_56300" x1="132.931" y1="6.63793" x2="706.278" y2="305.994" gradientUnits="userSpaceOnUse"><stop stop-color="#200384"/><stop offset="1" stop-color="#EE35F5"/></linearGradient></defs></svg>';
+
+/* Pre-render logo SVG to PNG data URL — avoids all CORS issues with html2canvas */
+var _logoPngCache = null;
+function _getLogoPng(cb) {
+  if (_logoPngCache) { cb(_logoPngCache); return; }
+  var c = document.createElement('canvas'); c.width = 766; c.height = 155;
+  var ctx = c.getContext('2d');
+  var img = new Image();
+  img.onload = function() { ctx.drawImage(img, 0, 0, 766, 155); _logoPngCache = c.toDataURL('image/png'); cb(_logoPngCache); };
+  img.onerror = function() { cb(null); };
+  img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(_LOGO_SVG_STR);
+}
+
 function makeGradImg(w, h) {
-  var c = document.createElement('canvas');
-  c.width = w; c.height = h;
+  var c = document.createElement('canvas'); c.width = w; c.height = h;
   var ctx = c.getContext('2d');
   var g = ctx.createLinearGradient(0, 0, w, 0);
-  g.addColorStop(0, '#5310a0');
+  g.addColorStop(0, '#200384');
   g.addColorStop(1, '#ee35f5');
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
   return c.toDataURL('image/png');
 }
 
-/* Shared PDF library loader - loads html2canvas + jsPDF once, then calls all queued callbacks */
+/* Shared PDF library loader */
 var _pdfLibsReady = false;
 var _pdfLibsQueue = [];
 function _loadPdfLibs(cb) {
@@ -1007,118 +1021,98 @@ function _loadPdfLibs(cb) {
   if (_pdfLibsQueue.length > 1) return;
   var pending = 2;
   function done() {
-    if (--pending === 0) {
-      _pdfLibsReady = true;
-      var q = _pdfLibsQueue; _pdfLibsQueue = [];
-      q.forEach(function(f) { f(); });
-    }
+    if (--pending === 0) { _pdfLibsReady = true; var q = _pdfLibsQueue; _pdfLibsQueue = []; q.forEach(function(f) { f(); }); }
   }
-  [
-    'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
-  ].forEach(function(src) {
-    var s = document.createElement('script');
-    s.src = src; s.onload = done; s.onerror = done;
-    document.head.appendChild(s);
-  });
+  ['https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+   'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
+  ].forEach(function(src) { var s = document.createElement('script'); s.src = src; s.onload = done; s.onerror = done; document.head.appendChild(s); });
 }
 
-/* Render a DOM element to a multi-page A4 PDF and save it directly to disk */
+/* Render element to multi-page A4 PDF — waits for fonts, saves directly to disk */
 function _renderToPdf(wrap, filename, onDone) {
-  wrap.style.cssText = 'position:absolute;left:-9999px;top:0;width:794px;font-family:"Helvetica Neue",Arial,sans-serif;color:#202a25;background:#fff;';
+  wrap.style.cssText = 'position:absolute;left:-9999px;top:0;width:794px;font-family:Fellix,"Trebuchet MS",sans-serif;color:#202a25;background:#fff;';
   document.body.appendChild(wrap);
-  window.html2canvas(wrap, {
-    scale: 2,
-    useCORS: true,
-    allowTaint: false,
-    backgroundColor: '#ffffff',
-    logging: false
-  }).then(function(canvas) {
-    if (wrap.parentNode) wrap.parentNode.removeChild(wrap);
-    var jsPDF = window.jspdf.jsPDF;
-    var pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
-    var pW = pdf.internal.pageSize.getWidth();
-    var pH = pdf.internal.pageSize.getHeight();
-    var imgH = (canvas.height / canvas.width) * pW;
-    var imgData = canvas.toDataURL('image/jpeg', 0.98);
-    var pageTop = 0;
-    pdf.addImage(imgData, 'JPEG', 0, 0, pW, imgH);
-    pageTop += pH;
-    while (pageTop < imgH - 1) {
-      pdf.addPage();
-      pdf.addImage(imgData, 'JPEG', 0, -pageTop, pW, imgH);
+  var doRender = function() {
+    window.html2canvas(wrap, { scale: 2, useCORS: true, allowTaint: false, backgroundColor: '#ffffff', logging: false })
+    .then(function(canvas) {
+      if (wrap.parentNode) wrap.parentNode.removeChild(wrap);
+      var jsPDF = window.jspdf.jsPDF;
+      var pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+      var pW = pdf.internal.pageSize.getWidth();
+      var pH = pdf.internal.pageSize.getHeight();
+      var imgH = (canvas.height / canvas.width) * pW;
+      var imgData = canvas.toDataURL('image/jpeg', 0.95);
+      var pageTop = 0;
+      pdf.addImage(imgData, 'JPEG', 0, 0, pW, imgH);
       pageTop += pH;
-    }
-    pdf.save(filename);
-    onDone();
-  }).catch(function() {
-    if (wrap.parentNode) wrap.parentNode.removeChild(wrap);
-    onDone();
-  });
+      while (pageTop < imgH - 1) { pdf.addPage(); pdf.addImage(imgData, 'JPEG', 0, -pageTop, pW, imgH); pageTop += pH; }
+      pdf.save(filename);
+      onDone();
+    }).catch(function() { if (wrap.parentNode) wrap.parentNode.removeChild(wrap); onDone(); });
+  };
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(doRender); } else { doRender(); }
 }
 
 function downloadChecklist() {
   var downloadSvg = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var btnEl = document.querySelector('button[onclick*="downloadChecklist"]');
-  if (btnEl) { btnEl.innerHTML = downloadSvg + ' Generating…'; btnEl.disabled = true; }
+  if (btnEl) { btnEl.innerHTML = downloadSvg + ' Generating...'; btnEl.disabled = true; }
 
   _loadPdfLibs(function() {
-    var gradBar  = makeGradImg(1588, 16);
-    var gradFoot = makeGradImg(1588, 8);
-    var logoSrc  = 'https://cdn.prod.website-files.com/65aa019626783da5fc3fac12/661498b9f8513ceddf7325e6_rechargly-logo-no-padding.svg';
+    _getLogoPng(function(logoPng) {
+      var gradBar = makeGradImg(1588, 6);
+      var logoHd  = logoPng ? '<img src="' + logoPng + '" style="height:22px;width:auto;display:block;">' : '<span style="font-weight:800;font-size:18px;color:#2b068a;">Rechargly</span>';
+      var logoFt  = logoPng ? '<img src="' + logoPng + '" style="height:15px;width:auto;display:block;">' : '<span style="font-weight:800;font-size:13px;color:#2b068a;">Rechargly</span>';
 
-    var allItems = document.querySelectorAll('.checklist-item');
-    var items = [];
-    allItems.forEach(function(el) {
-      items.push({ checked: el.querySelector('input').checked, text: el.querySelector('label').textContent.trim() });
-    });
+      var allItems = document.querySelectorAll('.checklist-item');
+      var items = [];
+      allItems.forEach(function(el) { items.push({ checked: el.querySelector('input').checked, text: el.querySelector('label').textContent.trim() }); });
 
-    var groups = [
-      { title: 'How you communicate fee changes', items: items.slice(0, 6) },
-      { title: 'Whether your fees and engagement letters reflect your decisions', items: items.slice(6, 14) },
-      { title: 'Whether you are still absorbing software subscription costs', items: items.slice(14, 20) }
-    ];
+      var groups = [
+        { title: 'How you communicate fee changes', items: items.slice(0, 6) },
+        { title: 'Whether your fees and engagement letters reflect your decisions', items: items.slice(6, 14) },
+        { title: 'Whether you are still absorbing software subscription costs', items: items.slice(14, 20) }
+      ];
 
-    var groupsHtml = groups.map(function(g, i) {
-      var rows = g.items.map(function(item) {
-        var boxStyle = 'width:16px;height:16px;min-width:16px;border-radius:3px;border:1.5px solid #d0d9df;margin-top:3px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;'
-          + (item.checked ? 'background:#5310a0;border-color:#5310a0;' : 'background:#fff;');
-        var checkmark = item.checked
-          ? '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-          : '';
-        var txtStyle = item.checked ? 'color:#b0bcc5;text-decoration:line-through;' : 'color:#202a25;';
-        return '<div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #f0f3f5;">'
-          + '<span style="' + boxStyle + '">' + checkmark + '</span>'
-          + '<span style="font-size:13px;line-height:1.6;' + txtStyle + '">' + item.text + '</span>'
-          + '</div>';
+      var groupsHtml = groups.map(function(g, gi) {
+        var rows = g.items.map(function(item) {
+          var chk = item.checked;
+          var box = 'display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;min-width:15px;flex-shrink:0;margin-top:2px;border-radius:3px;'
+            + (chk ? 'background:#2b068a;border:1.5px solid #2b068a;' : 'background:#fff;border:1.5px solid #c8d3db;');
+          var tick = chk ? '<svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '';
+          var txt  = chk ? 'color:#aab4bc;text-decoration:line-through;' : 'color:#202a25;';
+          return '<div style="display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid #eef1f3;">'
+            + '<span style="' + box + '">' + tick + '</span>'
+            + '<span style="font-size:13px;line-height:1.55;' + txt + '">' + item.text + '</span></div>';
+        }).join('');
+        return '<div style="' + (gi < groups.length - 1 ? 'margin-bottom:28px;' : '') + '">'
+          + '<div style="font-size:9.5px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#2b068a;padding-bottom:8px;border-bottom:2px solid #2b068a;margin-bottom:2px;">' + g.title + '</div>'
+          + rows + '</div>';
       }).join('');
-      return '<div style="' + (i < groups.length - 1 ? 'margin-bottom:32px;' : '') + '">'
-        + '<div style="font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#5310a0;padding-bottom:10px;border-bottom:2px solid #5310a0;margin-bottom:2px;">' + g.title + '</div>'
-        + rows + '</div>';
-    }).join('');
 
-    var wrap = document.createElement('div');
-    wrap.innerHTML =
-      '<div style="background:#fff;">'
-      + '<div style="padding:32px 56px 0;display:flex;align-items:center;justify-content:space-between;">'
-      + '<img src="' + logoSrc + '" style="height:24px;width:auto;display:block;" crossorigin="anonymous">'
-      + '<span style="font-size:11px;color:#9ca9b0;font-weight:400;">rechargly.com</span>'
-      + '</div>'
-      + '<img src="' + gradBar + '" style="display:block;width:100%;height:5px;margin-top:24px;">'
-      + '<div style="padding:40px 56px 8px;">'
-      + '<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#5310a0;margin-bottom:10px;">Software cost recovery</div>'
-      + '<div style="font-size:26px;font-weight:800;letter-spacing:-0.03em;color:#202a25;line-height:1.15;margin-bottom:10px;">The three commercial pieces checklist</div>'
-      + '<div style="font-size:13px;color:#70777c;line-height:1.65;margin-bottom:36px;">Use this checklist to review the three commercial gaps that cause most practices to absorb costs they should be passing on.</div>'
-      + groupsHtml
-      + '</div>'
-      + '<img src="' + gradFoot + '" style="display:block;width:100%;height:3px;margin-top:40px;">'
-      + '<div style="padding:14px 56px;display:flex;align-items:center;justify-content:space-between;">'
-      + '<img src="' + logoSrc + '" style="height:17px;width:auto;display:block;" crossorigin="anonymous">'
-      + '<span style="font-size:11px;color:#9ca9b0;">rechargly.com</span>'
-      + '</div></div>';
+      var wrap = document.createElement('div');
+      wrap.innerHTML =
+        '<div style="background:#fff;font-family:Fellix,\'Trebuchet MS\',sans-serif;">'
+        + '<div style="padding:28px 52px 0;display:flex;align-items:center;justify-content:space-between;">'
+        + logoHd
+        + '<span style="font-size:10.5px;color:#aab4bc;font-weight:500;letter-spacing:0.01em;">rechargly.com</span>'
+        + '</div>'
+        + '<img src="' + gradBar + '" style="display:block;width:100%;height:3px;margin-top:22px;">'
+        + '<div style="padding:36px 52px 0;">'
+        + '<div style="font-size:9.5px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:#2b068a;margin-bottom:8px;">Software cost recovery</div>'
+        + '<div style="font-size:24px;font-weight:800;letter-spacing:-0.03em;color:#202a25;line-height:1.15;margin-bottom:8px;">The three commercial pieces checklist</div>'
+        + '<div style="font-size:13px;color:#70777c;line-height:1.65;margin-bottom:32px;">Use this checklist to review the three commercial gaps that cause most practices to absorb costs they should be passing on.</div>'
+        + groupsHtml
+        + '</div>'
+        + '<img src="' + gradBar + '" style="display:block;width:100%;height:3px;margin-top:36px;">'
+        + '<div style="padding:12px 52px;display:flex;align-items:center;justify-content:space-between;">'
+        + logoFt
+        + '<span style="font-size:10px;color:#aab4bc;">rechargly.com</span>'
+        + '</div></div>';
 
-    _renderToPdf(wrap, 'rechargly-checklist.pdf', function() {
-      if (btnEl) { btnEl.innerHTML = downloadSvg + ' Download PDF'; btnEl.disabled = false; }
+      _renderToPdf(wrap, 'rechargly-checklist.pdf', function() {
+        if (btnEl) { btnEl.innerHTML = downloadSvg + ' Download PDF'; btnEl.disabled = false; }
+      });
     });
   });
 }
@@ -1168,61 +1162,61 @@ function copyTemplate(id) {
 function downloadTemplates() {
   var downloadSvg = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var btnEl = document.querySelector('button[onclick*="downloadTemplates"]');
-  if (btnEl) { btnEl.innerHTML = downloadSvg + ' Generating…'; btnEl.disabled = true; }
+  if (btnEl) { btnEl.innerHTML = downloadSvg + ' Generating...'; btnEl.disabled = true; }
 
   _loadPdfLibs(function() {
-    var gradBar  = makeGradImg(1588, 16);
-    var gradFoot = makeGradImg(1588, 8);
-    var logoSrc  = 'https://cdn.prod.website-files.com/65aa019626783da5fc3fac12/661498b9f8513ceddf7325e6_rechargly-logo-no-padding.svg';
+    _getLogoPng(function(logoPng) {
+      var gradBar = makeGradImg(1588, 6);
+      var logoHd  = logoPng ? '<img src="' + logoPng + '" style="height:22px;width:auto;display:block;">' : '<span style="font-weight:800;font-size:18px;color:#2b068a;">Rechargly</span>';
+      var logoFt  = logoPng ? '<img src="' + logoPng + '" style="height:15px;width:auto;display:block;">' : '<span style="font-weight:800;font-size:13px;color:#2b068a;">Rechargly</span>';
 
-    var titles = {
-      1: 'Annual fee increase',
-      2: 'New service line',
-      3: 'Software subscription pass-through'
-    };
-    var useWhen = {
-      1: 'Use when: reviewing fees as part of your annual engagement rollover',
-      2: 'Use when: formalising a fee for a service you have been delivering without one, or introducing a new service such as AI-assisted reporting, cash flow forecasting, or CFO advisory work',
-      3: 'Use when: separating software subscription costs (such as Xero or MYOB) that have been bundled into your engagement fee and passing them on as a distinct line item'
-    };
+      var titles  = { 1: 'Annual fee increase', 2: 'New service line', 3: 'Software subscription pass-through' };
+      var useWhen = {
+        1: 'Use when: reviewing fees as part of your annual engagement rollover',
+        2: 'Use when: formalising a fee for a service you have been delivering without one, or introducing a new service such as AI-assisted reporting, cash flow forecasting, or CFO advisory work',
+        3: 'Use when: separating software subscription costs (such as Xero or MYOB) that have been bundled into your engagement fee and passing them on as a distinct line item'
+      };
 
-    var cardsHtml = [1, 2, 3].map(function(id) {
-      var lines = templates[id].split('\n');
-      var subjectLine = lines[0].replace('Subject: ', '');
-      var body = lines.slice(2).join('\n');
-      var bodyHtml = body.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-      return '<div style="margin-bottom:24px;border:1px solid #d0d9df;border-radius:10px;overflow:hidden;">'
-        + '<div style="background:#f6f8f9;padding:14px 18px;border-bottom:1px solid #d0d9df;">'
-        + '<div style="font-size:14px;font-weight:700;color:#202a25;margin-bottom:4px;">' + titles[id] + '</div>'
-        + '<div style="font-size:11px;color:#9ca9b0;margin-bottom:6px;line-height:1.5;">' + useWhen[id] + '</div>'
-        + '<div style="font-size:12px;color:#70777c;"><span style="font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#9ca9b0;margin-right:5px;">Subject</span>' + subjectLine + '</div>'
+      var cardsHtml = [1, 2, 3].map(function(id) {
+        var lines = templates[id].split('\n');
+        var subjectLine = lines[0].replace('Subject: ', '');
+        var body = lines.slice(2).join('\n');
+        var bodyHtml = body.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+        return '<div style="margin-bottom:20px;border:1px solid #dde3e8;border-radius:8px;overflow:hidden;">'
+          + '<div style="background:#f6f8f9;padding:13px 18px;border-bottom:1px solid #dde3e8;">'
+          + '<div style="font-size:13.5px;font-weight:700;color:#202a25;margin-bottom:3px;">' + titles[id] + '</div>'
+          + '<div style="font-size:11px;color:#9ca9b0;margin-bottom:6px;line-height:1.5;">' + useWhen[id] + '</div>'
+          + '<div style="font-size:11.5px;color:#70777c;">'
+          + '<span style="font-size:9.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#aab4bc;margin-right:6px;">Subject</span>'
+          + subjectLine + '</div>'
+          + '</div>'
+          + '<div style="padding:16px 18px;font-size:12.5px;line-height:1.75;color:#202a25;white-space:pre-wrap;">' + bodyHtml + '</div>'
+          + '</div>';
+      }).join('');
+
+      var wrap = document.createElement('div');
+      wrap.innerHTML =
+        '<div style="background:#fff;font-family:Fellix,\'Trebuchet MS\',sans-serif;">'
+        + '<div style="padding:28px 52px 0;display:flex;align-items:center;justify-content:space-between;">'
+        + logoHd
+        + '<span style="font-size:10.5px;color:#aab4bc;font-weight:500;letter-spacing:0.01em;">rechargly.com</span>'
         + '</div>'
-        + '<div style="padding:18px;font-size:13px;line-height:1.8;color:#202a25;white-space:pre-wrap;">' + bodyHtml + '</div>'
-        + '</div>';
-    }).join('');
+        + '<img src="' + gradBar + '" style="display:block;width:100%;height:3px;margin-top:22px;">'
+        + '<div style="padding:36px 52px 0;">'
+        + '<div style="font-size:9.5px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:#2b068a;margin-bottom:8px;">Fee communication guide</div>'
+        + '<div style="font-size:24px;font-weight:800;letter-spacing:-0.03em;color:#202a25;line-height:1.15;margin-bottom:8px;">Fee communication templates</div>'
+        + '<div style="font-size:13px;color:#70777c;line-height:1.65;margin-bottom:28px;">These templates are designed to be sent ahead of your engagement renewal. Lead with the work you have been doing for the client, not the number going up. Be specific, be direct, and send them early.</div>'
+        + cardsHtml
+        + '</div>'
+        + '<img src="' + gradBar + '" style="display:block;width:100%;height:3px;margin-top:32px;">'
+        + '<div style="padding:12px 52px;display:flex;align-items:center;justify-content:space-between;">'
+        + logoFt
+        + '<span style="font-size:10px;color:#aab4bc;">rechargly.com</span>'
+        + '</div></div>';
 
-    var wrap = document.createElement('div');
-    wrap.innerHTML =
-      '<div style="background:#fff;">'
-      + '<div style="padding:32px 56px 0;display:flex;align-items:center;justify-content:space-between;">'
-      + '<img src="' + logoSrc + '" style="height:24px;width:auto;display:block;" crossorigin="anonymous">'
-      + '<span style="font-size:11px;color:#9ca9b0;font-weight:400;">rechargly.com</span>'
-      + '</div>'
-      + '<img src="' + gradBar + '" style="display:block;width:100%;height:5px;margin-top:24px;">'
-      + '<div style="padding:40px 56px 8px;">'
-      + '<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#5310a0;margin-bottom:10px;">Fee communication guide</div>'
-      + '<div style="font-size:26px;font-weight:800;letter-spacing:-0.03em;color:#202a25;line-height:1.15;margin-bottom:10px;">Fee communication templates</div>'
-      + '<div style="font-size:13px;color:#70777c;line-height:1.65;margin-bottom:32px;">These templates are designed to be sent ahead of your engagement renewal. Lead with the work you have been doing for the client, not the number going up. Be specific, be direct, and send them early.</div>'
-      + cardsHtml
-      + '</div>'
-      + '<img src="' + gradFoot + '" style="display:block;width:100%;height:3px;margin-top:32px;">'
-      + '<div style="padding:14px 56px;display:flex;align-items:center;justify-content:space-between;">'
-      + '<img src="' + logoSrc + '" style="height:17px;width:auto;display:block;" crossorigin="anonymous">'
-      + '<span style="font-size:11px;color:#9ca9b0;">rechargly.com</span>'
-      + '</div></div>';
-
-    _renderToPdf(wrap, 'rechargly-fee-templates.pdf', function() {
-      if (btnEl) { btnEl.innerHTML = downloadSvg + ' Download PDF'; btnEl.disabled = false; }
+      _renderToPdf(wrap, 'rechargly-fee-templates.pdf', function() {
+        if (btnEl) { btnEl.innerHTML = downloadSvg + ' Download PDF'; btnEl.disabled = false; }
+      });
     });
   });
 }
