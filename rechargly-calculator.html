@@ -199,6 +199,16 @@ hr.result-sep { border: none; border-top: 1px solid var(--border); margin: 0 0 1
 .slide-btn:hover:not(:disabled) { border-color: var(--purple); color: var(--purple); }
 .slide-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
+/* WEBINAR REPLAY (acc-5) */
+.replay-wrap { display: flex; flex-direction: column; gap: 1.25rem; }
+.replay-desc { font-size: 13.5px; color: var(--mid); line-height: 1.7; }
+.replay-video-box { position: relative; width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #000; aspect-ratio: 16/9; }
+.replay-video-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: block; }
+.replay-actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.replay-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--purple); text-decoration: none; border-bottom: 1.5px solid rgba(83,16,160,0.3); padding-bottom: 1px; transition: border-color 0.15s; }
+.replay-link:hover { border-color: var(--purple); }
+.replay-link svg { flex-shrink: 0; }
+
 /* GATE MODAL */
 #modal-overlay { position: fixed; inset: 0; z-index: 500; background: rgba(1,22,39,0.55); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); display: flex; align-items: center; justify-content: center; padding: 1.5rem; transition: opacity 0.3s ease; }
 #modal { background: var(--bg); border-radius: 12px; border: 1px solid var(--border); width: 100%; max-width: 440px; overflow: hidden; box-shadow: 0 24px 64px rgba(83,16,160,0.22), 0 8px 24px rgba(0,0,0,0.08); }
@@ -750,6 +760,45 @@ Your updated engagement letter will include this change. Please get in touch if 
         </div>
       </div>
 
+      <div class="acc-card" id="acc-5">
+        <div class="acc-card-bar"></div>
+        <button class="acc-trigger" onclick="toggleAccordion(5)" aria-expanded="false" aria-controls="acc-body-5">
+          <div class="acc-trigger-left">
+            <span class="acc-num">05</span>
+            <div class="acc-trigger-content">
+              <div class="acc-title-row">
+                <span class="acc-title">Webinar replay</span>
+              </div>
+              <span class="acc-desc">Missed the live session or want to revisit it? Watch the full webinar replay on fee communication, engagement letters, and software cost recovery.</span>
+            </div>
+          </div>
+          <svg class="acc-chevron" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M4.5 6.75L9 11.25L13.5 6.75" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="acc-body" id="acc-body-5">
+          <div class="acc-body-inner">
+            <div class="acc-body-content">
+              <div class="replay-wrap">
+                <p class="replay-desc">Watch the full session back at your own pace. This webinar covers practical strategies for recovering software costs from clients, writing fee communication that sticks, and getting your engagement letters right.</p>
+                <div class="replay-video-box">
+                  <iframe
+                    src="https://us06web.zoom.us/rec/share/viiYI2abpQ60ta2Sz8--5nU8JA9sWwaSKQC03epLl-4uwd9ijNBJEkkkySuDlHGf.LvUJ85nJvZYG4Uay?startTime=1778551285000&pwd=DAx0WVjlqhgR3CxEcQAAIAAAAPJm5Riq28In_7Q9wSFdmFPzcf8qqJCT-RQVCV7y7svNmhN2ElWmjopYxkjSoNMC5jAwMDAwNA"
+                    allow="autoplay; fullscreen"
+                    allowfullscreen
+                    title="Rechargly Webinar Replay"
+                  ></iframe>
+                </div>
+                <div class="replay-actions">
+                  <a class="replay-link" href="https://us06web.zoom.us/rec/share/viiYI2abpQ60ta2Sz8--5nU8JA9sWwaSKQC03epLl-4uwd9ijNBJEkkkySuDlHGf.LvUJ85nJvZYG4Uay?startTime=1778551285000&pwd=DAx0WVjlqhgR3CxEcQAAIAAAAPJm5Riq28In_7Q9wSFdmFPzcf8qqJCT-RQVCV7y7svNmhN2ElWmjopYxkjSoNMC5jAwMDAwNA" target="_blank" rel="noopener">
+                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M5.5 2H2a1 1 0 00-1 1v8a1 1 0 001 1h8a1 1 0 001-1V7.5M8 1h4m0 0v4m0-4L5.5 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Open in Zoom
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </main>
@@ -781,7 +830,7 @@ Your updated engagement letter will include this change. Please get in touch if 
 <script>
 /* ACCORDION */
 function toggleAccordion(id) {
-  [1, 2, 3, 4].forEach(function(n) {
+  [1, 2, 3, 4, 5].forEach(function(n) {
     var card    = document.getElementById('acc-' + n);
     var body    = document.getElementById('acc-body-' + n);
     var trigger = card.querySelector('.acc-trigger');
@@ -796,11 +845,17 @@ function toggleAccordion(id) {
           clearTimeout(webinarTimer);
           webinarTimer = setTimeout(function() { showDemoPopup('webinar'); }, 8000);
         }
+        if (n === 5 && !demoShown && gatePassed) {
+          clearTimeout(replayTimer);
+          replayTimer = setTimeout(function() { showDemoPopup('replay'); }, REPLAY_TRIGGER_SECS * 1000);
+        }
       } else {
         if (n === 4) { clearTimeout(webinarTimer); webinarTimer = null; }
+        if (n === 5) { clearTimeout(replayTimer);  replayTimer  = null; }
       }
     } else {
       if (n === 4) { clearTimeout(webinarTimer); webinarTimer = null; }
+      if (n === 5) { clearTimeout(replayTimer);  replayTimer  = null; }
       card.classList.remove('is-open');
       body.classList.remove('is-open');
       trigger.setAttribute('aria-expanded', 'false');
@@ -1100,6 +1155,11 @@ var gatePassed   = false;
 var demoShown    = false;
 var demoTimer    = null;
 var webinarTimer = null;
+var replayTimer  = null;
+// Zoom recordings don't expose a playback API, so we estimate:
+// set REPLAY_TRIGGER_SECS to (video duration in seconds) - 10.
+// Default assumes a ~45-minute webinar. Adjust once you know the actual length.
+var REPLAY_TRIGGER_SECS = 3526;
 
 document.querySelectorAll('input[type=range]').forEach(function(el) {
   el.addEventListener('input', function() {
@@ -1114,7 +1174,10 @@ function showDemoPopup(context) {
   demoShown = true;
   var headline = document.getElementById('demo-popup-title');
   var sub      = document.getElementById('demo-popup-sub');
-  if (context === 'webinar') {
+  if (context === 'replay') {
+    if (headline) headline.textContent = 'Ready to take the next step?';
+    if (sub) sub.textContent = 'You\'ve seen how it works in practice. Book a personalised demo and see Rechargly running for your firm.';
+  } else if (context === 'webinar') {
     if (headline) headline.textContent = 'Enjoyed the session? See how Rechargly works for your firm.';
     if (sub) sub.textContent = 'Book a personalised demo and see exactly how Rechargly can automate software cost recovery for your practice.';
   } else {
@@ -1132,8 +1195,8 @@ function showDemoPopup(context) {
 }
 
 function dismissDemoPopup() {
-  clearTimeout(webinarTimer);
-  webinarTimer = null;
+  clearTimeout(webinarTimer); webinarTimer = null;
+  clearTimeout(replayTimer);  replayTimer  = null;
   var overlay = document.getElementById('demo-popup-overlay');
   if (!overlay) return;
   overlay.classList.remove('show');
