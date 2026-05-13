@@ -944,10 +944,10 @@ function calc() {
   // changes_per_month = (clients / 25) x 7.499
   // hours_per_month   = (changes x seconds) / 3600  [raw, before seasonal factor]
   // annual_cost       = hours_per_month x 2.2 x 12 x hourly_rate
-  // Medium low = 50 sec/change, Medium high = 55 sec/change
+  // Low tier = 45 sec/change, High tier = 65 sec/change (full range across all tiers)
   var changes_mo   = (clients / 25) * 7.499;
-  var hrs_lo       = (changes_mo * 50) / 3600;
-  var hrs_hi       = (changes_mo * 55) / 3600;
+  var hrs_lo       = (changes_mo * 45) / 3600;
+  var hrs_hi       = (changes_mo * 65) / 3600;
   var admin_lo     = hrs_lo * 2.2 * 12 * hourly;
   var admin_hi     = hrs_hi * 2.2 * 12 * hourly;
 
