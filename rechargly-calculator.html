@@ -96,7 +96,7 @@ main { flex: 1; padding: 2rem 1.5rem 0; }
 /* CALCULATOR (inside accordion) */
 .calc-layout { display: grid; grid-template-columns: 1fr 290px; gap: 1.25rem; align-items: start; }
 @media (max-width: 640px) { .calc-layout { grid-template-columns: 1fr; } }
-.calc-panel { display: flex; flex-direction: column; gap: 1.4rem; }
+.calc-panel { display: flex; flex-direction: column; gap: 1rem; }
 .field-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem; gap: 12px; }
 .field-label { font-size: 13.5px; font-weight: 600; color: var(--text); }
 .field-hint { font-size: 11.5px; color: var(--muted); font-weight: 400; margin-top: 2px; }
@@ -107,12 +107,12 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
 input[type=range]::-moz-range-thumb { width: 18px; height: 18px; background: var(--purple); border-radius: 50%; border: 2.5px solid #fff; }
 .tick-labels { display: flex; justify-content: space-between; margin-top: 5px; }
 .tick-labels span { font-size: 11px; color: var(--muted); font-weight: 400; }
-hr.sep { border: none; border-top: 1px solid var(--border); }
+hr.sep { border: none; border-top: 1px solid var(--border); margin: 0; }
 
 /* RESULT PANEL */
 .result-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
 .result-panel::before { content: ''; display: block; height: 3px; background: var(--gradient); }
-.result-panel-body { padding: 1.4rem; }
+.result-panel-body { padding: 1.1rem; }
 .result-eyebrow { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
 .result-amount { font-size: 40px; font-weight: 900; letter-spacing: -0.04em; line-height: 1; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .result-sublabel { font-size: 12px; color: var(--muted); font-weight: 400; margin-top: 0.2rem; margin-bottom: 1.25rem; }
@@ -135,8 +135,8 @@ hr.result-sep { border: none; border-top: 1px solid var(--border); margin: 0 0 1
 
 /* IMPACT LAYERS */
 .impact-layers { display: flex; flex-direction: column; gap: 0; margin-bottom: 1.1rem; }
-.impact-layer { padding: 0.8rem 0; border-bottom: 1px solid var(--border); }
-.impact-layer:last-child { border-bottom: none; padding-bottom: 0.2rem; }
+.impact-layer { padding: 0.6rem 0; border-bottom: 1px solid var(--border); }
+.impact-layer:last-child { border-bottom: none; padding-bottom: 0.15rem; }
 .impact-layer-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
 .impact-layer-val { font-size: 18px; font-weight: 900; letter-spacing: -0.03em; line-height: 1.2; color: var(--text); margin-bottom: 2px; word-break: break-word; }
 .impact-layer-desc { font-size: 11px; color: var(--muted); font-weight: 400; line-height: 1.45; }
@@ -408,8 +408,8 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
                       </div>
                       <span class="field-val" id="cost-out">$50</span>
                     </div>
-                    <input type="range" id="cost" min="25" max="150" step="5" value="50" oninput="calc()">
-                    <div class="tick-labels"><span>$25</span><span>$50</span><span>$75</span><span>$100</span><span>$125</span><span>$150</span></div>
+                    <input type="range" id="cost" min="10" max="150" step="5" value="50" oninput="calc()">
+                    <div class="tick-labels"><span>$10</span><span>$50</span><span>$75</span><span>$100</span><span>$125</span><span>$150</span></div>
                   </div>
 
                   <hr class="sep">
@@ -425,8 +425,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
                     <input type="range" id="recovery" min="0" max="100" step="5" value="10" oninput="calc()">
                     <div class="tick-labels"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
                   </div>
-
-                  <hr class="sep">
 
                   <div class="calc-dropdowns">
                     <div class="select-field">
@@ -454,14 +452,19 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
                     <div class="result-eyebrow">Your firm's annual billing leakage</div>
                     <div class="impact-layers">
                       <div class="impact-layer">
+                        <div class="impact-layer-label">Admin time</div>
+                        <div class="impact-layer-val" id="admin-out">$0 to $0</div>
+                        <div class="impact-layer-desc" id="admin-desc">0.00h to 0.00h per month in subscription admin</div>
+                      </div>
+                      <div class="impact-layer">
+                        <div class="impact-layer-label">Billing leakage</div>
+                        <div class="impact-layer-val" id="billing-leakage-out">$0 to $0</div>
+                        <div class="impact-layer-desc">per year from untracked plan changes</div>
+                      </div>
+                      <div class="impact-layer">
                         <div class="impact-layer-label">Unrecovered costs</div>
                         <div class="impact-layer-val" id="annual-out">$0</div>
                         <div class="impact-layer-desc" id="annual-label">per year in subscription costs not passed on to clients</div>
-                      </div>
-                      <div class="impact-layer">
-                        <div class="impact-layer-label">Admin time</div>
-                        <div class="impact-layer-val" id="admin-out">$0 to $0</div>
-                        <div class="impact-layer-desc" id="admin-desc">-- per month in subscription admin</div>
                       </div>
                       <div class="impact-layer impact-layer--total">
                         <div class="impact-layer-label">Total billing leakage</div>
@@ -930,32 +933,34 @@ function calc() {
 
   // BILLING LEAKAGE (hardcoded Medium)
   // annual_spend = clients x subscriptions x avg_monthly_cost x 12
-  // Coefficients 0.09/0.122 calibrated to pass all 6 Alex Millar benchmarks
+  // Coefficients 0.065/0.09 from Alex Millar spreadsheet (Medium level)
   var annual_spend = clients * subs * cost * 12;
-  var leakage_lo   = annual_spend * 0.09;
-  var leakage_hi   = annual_spend * 0.122;
+  var leakage_lo   = annual_spend * 0.065;
+  var leakage_hi   = annual_spend * 0.09;
 
-  // ADMIN TIME (hardcoded Medium, x2.2 overhead formula)
-  // changes_per_month = (clients / 25) x 7.5
-  // hours = (changes x seconds) / 3600 x 2.2 overhead
-  // 50 seconds per change = low, 55 seconds = high
-  var changes_mo   = (clients / 25) * 7.5;
-  var hrs_lo       = (changes_mo * 50  / 3600) * 2.2;
-  var hrs_hi       = (changes_mo * 55  / 3600) * 2.2;
-  var admin_lo     = hrs_lo * 12 * hourly;
-  var admin_hi     = hrs_hi * 12 * hourly;
+  // ADMIN TIME (Medium hardcoded) — Alex Millar spreadsheet formula
+  // changes_per_month = (clients / 25) x 7.499
+  // hours_per_month   = (changes x seconds) / 3600  [raw, before seasonal factor]
+  // annual_cost       = hours_per_month x 2.2 x 12 x hourly_rate
+  // Medium low = 50 sec/change, Medium high = 55 sec/change
+  var changes_mo   = (clients / 25) * 7.499;
+  var hrs_lo       = (changes_mo * 50) / 3600;
+  var hrs_hi       = (changes_mo * 55) / 3600;
+  var admin_lo     = hrs_lo * 2.2 * 12 * hourly;
+  var admin_hi     = hrs_hi * 2.2 * 12 * hourly;
 
   // UNRECOVERED COSTS
   // annual_spend x (1 - recovery_percentage / 100)
   var unrecovered  = annual_spend * (1 - recovPct / 100);
 
-  // TOTAL: billing leakage + admin time (unrecovered costs shown separately)
+  // TOTAL: billing leakage + admin time (unrecovered shown separately)
   var total_lo     = leakage_lo + admin_lo;
   var total_hi     = leakage_hi + admin_hi;
 
-  document.getElementById('annual-out').textContent  = fmtMoney(unrecovered, cur);
-  document.getElementById('admin-out').textContent   = fmtMoneyRangeTo(admin_lo, admin_hi, cur);
-  document.getElementById('leakage-out').textContent = fmtMoneyRangeTo(total_lo, total_hi, cur);
+  document.getElementById('admin-out').textContent           = fmtMoneyRangeTo(admin_lo, admin_hi, cur);
+  document.getElementById('billing-leakage-out').textContent = fmtMoneyRangeTo(leakage_lo, leakage_hi, cur);
+  document.getElementById('annual-out').textContent          = fmtMoney(unrecovered, cur);
+  document.getElementById('leakage-out').textContent         = fmtMoneyRangeTo(total_lo, total_hi, cur);
 
   var adminDesc = document.getElementById('admin-desc');
   if (adminDesc) {
