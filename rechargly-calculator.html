@@ -140,7 +140,6 @@ hr.result-sep { border: none; border-top: 1px solid var(--border); margin: 0 0 1
 .impact-layer-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
 .impact-layer-val { font-size: 18px; font-weight: 900; letter-spacing: -0.03em; line-height: 1.2; color: var(--text); margin-bottom: 2px; word-break: break-word; }
 .impact-layer-desc { font-size: 11px; color: var(--muted); font-weight: 400; line-height: 1.45; }
-.impact-layer--total .impact-layer-label { color: var(--muted); }
 .impact-layer--total .impact-layer-val { font-size: 22px; color: var(--text); }
 .breakeven-note { font-size: 11.5px; font-weight: 600; color: var(--purple); background: rgba(83,16,160,0.06); border-left: 2.5px solid var(--purple); border-radius: 0 6px 6px 0; padding: 0.55rem 0.75rem; margin-top: 0.85rem; margin-bottom: 1.1rem; line-height: 1.5; }
 
@@ -855,6 +854,9 @@ Your updated engagement letter will include this change. Please get in touch if 
 </footer>
 
 <script>
+history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
+
 /* ACCORDION */
 function toggleAccordion(id) {
   [1, 2, 3, 4, 5].forEach(function(n) {
@@ -1324,10 +1326,7 @@ function submitGateForm() {
   overlay.style.display = 'none';
   document.body.style.overflow = '';
   gatePassed = true;
-  setTimeout(function() {
-    var acc1 = document.getElementById('acc-1');
-    if (acc1) acc1.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 300);
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 /* ---- WEBINAR SLIDE DECK ---- */
